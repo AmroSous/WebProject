@@ -1,0 +1,88 @@
+
+.backImgTwo{
+    width: 500px;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: -1;
+}
+body{
+    background-image: url("images/background.png");
+    background-size: cover;
+    background-attachment: fixed;
+    background-color: #ecddcc;
+    margin: 0;
+}
+div.middle{
+    margin: 30px auto;
+    width: 25%;
+}
+.middle table{
+    margin: 5px auto;
+}
+.middle td{
+    padding: 5px 10px;
+}
+.middle #appIcon{
+    width: 65px;
+}
+.middle #headerTitle{
+    font-size: 55px;
+    font-family: "Century Schoolbook";
+}
+.loginCard{
+    border-radius: 30px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.5);
+    height: 500px;
+}
+span.desc{
+    text-align: center;
+    display: block;
+    margin: 20px auto 2px auto;
+    line-height: 25px;
+    color: #2f282a;
+}
+#email, #pass, #submit{
+    width: 70%;
+    margin: 3px auto;
+    display: block;
+    border-radius: 5px;
+    font-size: 16px;
+}
+#email, #pass{
+    background-color: transparent;
+    border: 2px solid rgba(0, 0, 0, 0.3);
+    padding: 7px 20px;
+}
+#email::placeholder, #pass::placeholder{
+    color: #555555;
+}
+#submit{
+    background-color: #4949ea;
+    color: white;
+    border: 2px solid #3b2b79;
+    padding: 6px 20px;
+}
+#email:hover, #pass:hover{
+    background-color: rgba(0,0,0,0.1);
+}
+#submit:hover{
+    border: 2px solid #4c3a94;
+    background-color: #5050ec;
+    cursor: pointer;
+}
+#submit:focus{
+    background-color: #3c3cec;
+}
+.loginCard td{
+    text-align: center;
+    padding: 5px 15px;
+}
+.loginCard td a{
+    text-decoration: none;
+    color: #1e0d73;
+}
+.loginCard td a:hover{
+    color: #3b2b79;
+}

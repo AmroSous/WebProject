@@ -1,0 +1,47 @@
+.flexbox{
+    content: "";
+    display: table;
+    clear: both;
+}
+.footer{
+    padding: 15px 10%;
+    background-color: #20144d;
+}
+.footer table{
+    float: left;
+    margin-left: 5%;
+    margin-right: 5%;
+    height: 100px;
+}
+img#footerIcon{
+    width: 50px;
+}
+span#footerTitle{
+    font-size: 40px;
+    font-family: "Century Schoolbook";
+    color: yellow;
+}
+a.seeMore{
+    color: #2fa176;
+    padding: 15px 10px;
+    display: block;
+    float: left;
+    width: 15%;
+    height: 100px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+}
+a.seeMore:hover{
+    background-color: #2d1e69;
+}
+a.seeMore span{
+    font-size: 14px;
+    font-weight: normal;
+}
+span.copyrights{
+    display: block;
+    width: 100%;
+    text-align: center;
+    color: #00eaff;
+}
