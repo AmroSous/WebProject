@@ -1,0 +1,8 @@
+**** to clone repo from github .. 
+git clone https://github.com/... 
+
+
+*** to push changes to github .. 
+git commit -m "any message for commit"
+git push origin main
+
