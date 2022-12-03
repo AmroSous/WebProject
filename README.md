@@ -9,6 +9,7 @@
 * ***pages***: for main pages
 * ***styles***: for styles like css
 * ***uploads***: for user uploads like pictures
+* ***jscripts***: for java script codes and functions
 
 > in each directory there is index.php file for redirecting the user to main page.
 ************
