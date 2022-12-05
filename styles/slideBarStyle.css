@@ -1,0 +1,184 @@
+@import "https://fonts.googleapis.com/css?family=Audiowide|Sofia|Trirong";
+
+body{
+    margin: 0;
+    background-color: #6fbac2;
+    overflow: hidden;
+}
+.container{
+    height: 100vh;
+    background-color: transparent;
+    overflow: hidden;
+}
+
+/* slide bar */
+
+.slideBar{
+    background-color: #777;
+    height: 100vh;
+    overflow-x: hidden;
+    transition: width 0.3s;
+}
+table.table1{
+    margin: 5px;
+    width: 100%;
+}
+.table1 td{
+    padding: 5px;
+    text-align: left;
+}
+.table1 td:nth-child(1){
+    width: 45px;
+}
+.table1 td:nth-child(3){
+    width: fit-content;
+}
+.wsImage{
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    background-image: linear-gradient(to bottom, blue, #5a78ff);
+    border-radius: 5px;
+    padding: 10px 15px;
+}
+.wsName{
+    word-wrap: break-word;
+    width: 140px;
+}
+a.closeSlideBar{
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+    color: black;
+    border-radius: 5px;
+    display: block;
+    width: 35px;
+    height: 35px;
+    padding: 5px;
+    box-sizing: border-box;
+}
+a.closeSlideBar:hover{
+    background-color: #666;
+}
+a.closeSlideBar:active{
+    background-color: #555;
+}
+div.closeImg{
+    background-image: url("../images/left.png");
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+}
+hr{
+    margin: 15px;
+    border: none;
+    border-top: 2px rgba(0, 0, 0, 0.4) solid;
+}
+.table2{
+    width: 100%;
+    margin: 10px 0;
+}
+.table2 td{
+    padding: 15px;
+}
+.yourBoarders{
+    font-size: 20px;
+    font-family: "Century Schoolbook";
+}
+a.addBoard{
+    font-size: 26px;
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: black;
+}
+a.addBoard:hover{
+    background-color: #666;
+}
+a.addBoard:active{
+    background-color: #555;
+}
+table.boardsList{
+    width: 100%;
+}
+table.boardsList td{
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 18px;
+    font-family: "Audiowide", sans-serif;
+    cursor: pointer;
+}
+table.boardsList td:hover{
+    background-color: #aaa;
+}
+.closedBar{
+    width: 15px;
+    height: 100vh;
+    background-color: rgba(50, 50, 50, 0.2);
+    border: 1px solid rgba(50, 50, 50, 0.8);
+    display: none;
+}
+.closedBar:hover{
+    background-color: rgba(50, 50, 50, 0.4);
+}
+a.openSlideBar{
+    position: absolute;
+    left: 7px;
+    top: 75px;
+    display: block;
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+    box-sizing: border-box;
+    background-color: rgba(50,50,50,0.4);
+    border-radius: 10px;
+    visibility: hidden;
+}
+a.openSlideBar:hover{
+    background-color: rgba(50,50,50,0.6);
+}
+div.openImg{
+    background-image: url("../images/right.png");
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+}
+
+/* board space */
+
+.board{
+    height: 100vh;
+}
+.topBar{
+    background-color: red;
+    height: 50px;
+}
+.listsContainer{
+    display: flex;
+    flex-flow: column;
+    overflow-x: scroll;
+    padding: 20px 50px;
+    width: auto;
+    height: 100%;
+}
+.list{
+
+}
+.card{
+
+}
+.addList{
+}
+.addAnotherList{
+
+}
+#listName{
+
+}
+#createList{
+
+}
+.closeCreateList{
+
+}
