@@ -1,7 +1,7 @@
 
 div.nav_bar_one, div.nav_bar_two{
     width: 100%;
-    box-shadow: 1px 1px 5px #555;
+    box-shadow: 1px 1px 20px #555;
     background-color: blue;
 }
 
