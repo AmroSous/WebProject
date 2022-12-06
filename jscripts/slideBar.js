@@ -1,17 +1,24 @@
 function closeSlideBar(){
-    document.querySelector('.slideBarCell').style.width = '0';
-    setTimeout("document.querySelector('.closedBar').style.display = 'block';", 280);
-    setTimeout("document.querySelector('.openSlideBar').style.visibility = 'visible';", 280);
+    document.querySelector('.slideBar').style.width = '0';
+    setTimeout("document.querySelector('.closedBar').style.display = 'block';", 240);
+    setTimeout("document.querySelector('.openSlideBar').style.visibility = 'visible';", 240);
+    console.log('close');
 }
 
 function openSlideBar(){
     document.querySelector('.closedBar').style.display = 'none';
     document.querySelector('.openSlideBar').style.visibility = 'hidden';
-    document.querySelector('.slideBarCell').style.width = '170px';
+    document.querySelector('.slideBar').style.width = '18%';
+    console.log('open');
 }
 
-function addBoard(){
+document.querySelector('.closeCreateBoardPanel').addEventListener('click', () => {
+    document.querySelector('.addBoardPlane').style.display = 'none';
+})
 
-}
+document.querySelector('a.addBoard').addEventListener('click', ()=>{
+    document.querySelector('.addBoardPlane').style.display = 'block';
+})
+
 
 
