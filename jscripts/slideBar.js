@@ -36,4 +36,3 @@ document.querySelectorAll('table.boardsList td').forEach(row => {
 })
 
 
-
