@@ -13,7 +13,6 @@ function openSlideBar(){
     console.log('open');
 }
 
-
 // close create new Board Panel
 document.querySelector('.closeCreateBoardPanel').addEventListener('click', () => {
     document.querySelector('.addBoardPlane').style.display = 'none';
