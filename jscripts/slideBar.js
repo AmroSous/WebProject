@@ -13,6 +13,7 @@ function openSlideBar(){
     console.log('open');
 }
 
+
 // close create new Board Panel
 document.querySelector('.closeCreateBoardPanel').addEventListener('click', () => {
     document.querySelector('.addBoardPlane').style.display = 'none';
@@ -34,6 +35,5 @@ document.querySelectorAll('table.boardsList td').forEach(row => {
         window.location.href = "http://localhost/Schema/pages/boards.php?id=" + row.dataset.id;
     })
 })
-
 
 

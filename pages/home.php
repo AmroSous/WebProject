@@ -15,6 +15,8 @@ include '../common/project.php';
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="icon" type="image/x-icon" href="../images/appIcon.png"/>
     <link rel="stylesheet" type="text/css" href="../styles/homeStyle.css">
+    <link rel="stylesheet" type="text/css" href="../styles/nav_bar_style.css">
+    <script src="../jscripts/homepage.js"></script>
     <title>Home</title>
 </head>
 <body>
@@ -26,14 +28,43 @@ include '../common/project.php';
     <div class="inner-header flex">
         <!--Just the logo... Don't mind this-->
 </svg>
-        <h1 class="title"><?= Project::PROJ_NAME ?></h1>
+<!--        <h1 class="title">--><?//= Project::PROJ_NAME ?><!--</h1>-->
+        </svg>
+
+        <svg viewBox="0 0 800 300">
+            <symbol id="s-text">
+                <text text-anchor="middle"
+                      x="50%"
+                      y="70%"
+                      class=""
+                >
+                    Schema
+                </text>
+
+            </symbol>
+
+            <g class="g-ants">
+                <use xlink:href="#s-text"
+                     class="text-copy"></use>
+                <use xlink:href="#s-text"
+                     class="text-copy"></use>
+                <use xlink:href="#s-text"
+                     class="text-copy"></use>
+                <use xlink:href="#s-text"
+                     class="text-copy"></use>
+                <use xlink:href="#s-text"
+                     class="text-copy"></use>
+            </g>
+
+
+        </svg>
         <h2 id="des2">to do your project in the best and fast way </h2>
 
         <div id="slide-show">
             <img src="../images/home1.jpeg" width="1200" height="744" alt="">
-            <img src="../images/home2.jpeg" width="1200" height="744" alt="">
+            <img src="../images/home3.jpeg" width="1200" height="744" alt="">
             <img src="../images/home1.jpeg" width="1200" height="744" alt="">
-            <img src="../images/home2.jpeg" width="1200" height="744" alt="">
+            <img src="../images/home3.jpeg" width="1200" height="744" alt="">
         </div>
     </div>
 
@@ -60,41 +91,39 @@ include '../common/project.php';
 <!--Content starts-->
 <div class="content-grid">
     <div id="sec1">A productivity powerhouse</div>
-    <div id="sec2">Simple, flexible, and powerful. All it takes are boards, lists,
-        and cards to get a clear view of who is doing what and what needs to get done.</div>
-    <button onclick="document.getElementById('img1').src='../images/home3.jpeg'" id="sec3" >
-        <div>
+    <div id="sec2" >Simple, flexible, and powerful. All it takes are boards, lists,
+        and cards to get a clear view of who is doing what and what needs to get done.
+    </div>
+
+    <button id="sec3" onclick="document.getElementById('img1').src='../images/boards.png'"  >
+        <div onmouseenter="left_s1()" onmouseout="nleft_s1()">
             <span id="s1"> Boards</span>
-            <div ><?= Project::PROJ_NAME ?> boards keep tasks organized and work moving forward.
+            <div >Trello boards keep tasks organized and work moving forward.
                 In a glance, see everything from “things to do” to “oh yeah, we did it!”</div>
-        </div>
     </button>
-    <button id="sec4" onclick="document.getElementById('img1').src='../images/home3.jpeg'">
-        <div id="d1">
+    <button id="sec4" onclick="document.getElementById('img1').src='../images/List.png'">
+        <div id="d1" onmouseenter="left_s2()"  onmouseout="nleft_s2()">
             <span id="s2">List</span>
             <div>The different stages of a task. Start as simple as To Do,
                 Doing or Done or build a workflow custom fit to your team’s needs. There’s no wrong way to Trello.
             </div>
         </div>
     </button>
-    <button id="sec5" onclick="document.getElementById('img1').src='img/cards.png'">
-        <div>
+    <button id="sec5" onclick="document.getElementById('img1').src='../images/cards.png'">
+        <div onmouseenter="left_s3()" onmouseout="unleft_s3()">
             <span id="s3">cards</span>
             <div>Cards represent tasks and ideas and hold all the information to get the job done.
                 As you make progress, move cards across lists to show their status.</div>
         </div>
     </button>
-    <div id="sec6">
-        <img id="img1" src="img/bords.png" onload="load()">
-        <img id="img3" src="img/cards.png" style="display: none">
-        <img id="img2" src="img/List.png.png"style="display: none">
-    </div>
-
-    <div id="second_section">
-
-
-    </div>
+<div id="sec6">
+    <img id="img1" src="../images/boards.png" onload="load()">
+    <img id="img3" src="../images/List.png" style="display: none">
+    <img id="img2" src="../images/cards.png"style="display: none">
 </div>
+
+    <div id="second_section"></div>
+    </div>
 <!--Content ends-->
 
 </body>
