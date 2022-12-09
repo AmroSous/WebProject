@@ -27,7 +27,7 @@ if (!(isset($_SESSION['validUser']) and $_SESSION['validUser'])){
 </head>
 <body>
 <!--Navigation bar-->
-<?php include '../common/nav_bar.php'; ?>
+<?php // include '../common/nav_bar.php'; ?>
 
 <!-- Workspaces elements here -->
 

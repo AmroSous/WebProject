@@ -11,6 +11,7 @@ cards.forEach(card => {
     });
 
     card.addEventListener('dragend', event => {
+        console.log('end');
         event.stopPropagation();
         card.classList.remove('dragging');
         card.classList.remove('invisible');
