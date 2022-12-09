@@ -1,6 +1,69 @@
 <?php
 session_start();
-include "../common/project.php";
+include "../common/functions.php";
+include "../common/List_Cards_pair.php";
+
+// ---------- if the user signed in go to workspaces ------------------
+if (!(isset($_SESSION['validUser']) and $_SESSION['validUser'])){
+    die('Page Not Found !!');
+}
+// ------------ request method should be GET ---------------------------------
+if ($_SERVER['REQUEST_METHOD'] !== "GET"){
+    die('Page Not Found !!');
+}
+// ------------- id url parameter should be set --------------------
+if (!isset($_GET['id'])){
+    die("Board parameter Not Found !!");
+}
+// ------------- check board in database -------------------------------------
+$conn = connectDB();
+$prep = "select `boards`.`id` as 'board_id', `boards`.`name` as 'board_name', `workspaces`.`id` as 'ws_id', `workspaces`.`name` as 'ws_name' from " .
+        "`boards`, `workspaces` where `boards`.`id` = :boardID and `workspaces`.`user_id` = :userID ".
+        "and `boards`.`workspace_id` = `workspaces`.`id`";
+$stmt = $conn->prepare($prep);
+$stmt->bindParam(':boardID', $_GET['id']);
+$stmt->bindParam(':userID', $_SESSION['userId']);
+$stmt->execute();
+$stmt->setFetchMode(PDO::FETCH_ASSOC);
+$result = $stmt->fetchAll();
+if (count($result) == 1){
+    $_SESSION['boardId'] = $result[0]['board_id'];
+    $_SESSION['boardName'] = $result[0]['board_name'];
+    $_SESSION['workspaceId'] = $result[0]['ws_id'];
+    $_SESSION['workspaceName'] = $result[0]['ws_name'];
+}else{
+    die("Board not found");
+}
+
+//-------------- fetch all the information about board from database ---------------
+$conn = connectDB();
+$prep = "select * from `boards` where `workspace_id` = :id";
+$stmt = $conn->prepare($prep);
+$stmt->bindParam(':id', $_SESSION['workspaceId']);
+$stmt->execute();
+$stmt->setFetchMode(PDO::FETCH_ASSOC);
+$boards = $stmt->fetchAll();
+// ----------------------------
+$prep = "select * from `lists` where `board_id` = :id order by `serial`";
+$stmt = $conn->prepare($prep);
+$stmt->bindParam(':id', $_SESSION['boardId']);
+$stmt->execute();
+$stmt->setFetchMode(PDO::FETCH_ASSOC);
+$lists = $stmt->fetchAll();
+// ---------------------------------
+$lists_cards = array();
+$lists_cards = array_fill(0, count($lists)+1, -1);
+foreach ($lists as $list){
+    $prep = "select * from `cards` where `list_id` = :id order by `serial`";
+    $stmt = $conn->prepare($prep);
+    $stmt->bindParam(':id', $list['id']);
+    $stmt->execute();
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $cards = $stmt->fetchAll();
+    $node = new List_Cards_pair($list, $cards);
+    $lists_cards[$list['serial']] = $node;              // sorted array [serial] = object{list="", cards=""}
+}
+$conn = NULL;
 ?>
 
 <!doctype html>
@@ -12,12 +75,15 @@ include "../common/project.php";
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <link rel="stylesheet" href="../styles/slideBarStyle.css" />
+    <link rel="stylesheet" href="../styles/listsStyle.css" />
 
-    <title>Board</title>
+    <title><?= $_SESSION['boardName'] ?></title>
 </head>
 <body>
 
-<?php include '../common/nav_bar.php'; ?>
+<?php
+    include '../common/nav_bar.php';
+?>
 
     <div class="container">
 
@@ -27,8 +93,8 @@ include "../common/project.php";
             <div class="slideBar">
                 <table class="table1">
                     <tr>
-                        <td><div class="wsImage">W</div></td>
-                        <td><div class="wsName">Workspace</div></td>
+                        <td><div class="wsImage"><?= $_SESSION['workspaceName'][0] ?></div></td>
+                        <td><div class="wsName"><?= $_SESSION['workspaceName'] ?></div></td>
                         <td><a href="javascript:void(0)" class="closeSlideBar" onclick="closeSlideBar()"><div class="closeImg"></div></a></td>
                     </tr>
                 </table>
@@ -40,15 +106,13 @@ include "../common/project.php";
                     </tr>
                 </table>
                 <table class="boardsList">
-                    <tr>
-                        <td>Board one</td>
-                    </tr>
-                    <tr>
-                        <td>Board two</td>
-                    </tr>
-                    <tr>
-                        <td>Third board</td>
-                    </tr>
+                    <?php
+                        foreach ($boards as $board ){
+                            echo "<tr><td data-id='". $board['id'] ."'>";
+                            echo $board['name'];
+                            echo "</td></tr>";
+                        }
+                    ?>
                 </table>
             </div>
 
@@ -56,129 +120,94 @@ include "../common/project.php";
         <div class="lists">
 
             <div class="topBar">
-                <p class="boardNameTopBar">Board Name</p>
+                <p class="boardNameTopBar"><?= $_SESSION['boardName'] ?></p>
             </div>
 
             <div class="flexBox">
 
                 <div class="listsContainer">
 
-                <div class="list draggableList" draggable="true">
-                    <div class="listName">
-                        Card Name
-                    </div>
+                    <?php
+                        foreach ($lists_cards as $pair){
+                            if ($pair === -1) continue;
+                            $list = $pair->list;
+                            $cards = $pair->cards;
+                    ?>
 
-                    <div class="cardsContainer">
-                        <div class="card draggableCard" draggable="true">Card one</div>
-                        <div class="card draggableCard" draggable="true">Card one</div>
-                        <div class="card draggableCard" draggable="true">Card two</div>
-                        <div class="card draggableCard" draggable="true">Card three</div>
-                    </div>
+                        <div class="list draggableList" draggable="true" data-id="<?= $list['id'] ?>" id="list<?= $list['id'] ?>">
+                            <div class="listName editable" contenteditable="true">
+                                <?= $list['name'] ?>
+                            </div>
 
-                    <div class="addCard">
-                        <table class="addAnotherCardTable"><tr><td class="addSign-card">+</td><td class="addAnotherCard">Add Card</td></tr></table>
-                        <form action="" method="post" class="addCardForm">
-                            <input type="text" name="cardName" class="cardName" placeholder="Enter Card name:" /><br/>
-                            <table>
-                                <tr>
-                                    <td><input type="submit" name="createCard" class="createCard" value="Create"/></td>
-                                    <td><img src="../images/closeIcon.png" alt="close" class="closeCreateCard"/></td>
-                                </tr>
-                            </table>
-                        </form>
-                    </div>
-                </div>
+                            <div class="cardsContainer">
 
-                <div class="list draggableList" draggable="true">
-                    <div class="listName">
-                        Card Name
-                    </div>
+                                <?php
+                                    foreach ($cards as $card){
+                                ?>
+                                    <div class="card draggableCard" draggable="true" data-id="<?= $card['id'] ?>" id="card<?= $card['id'] ?>">
+                                        <div class="cardNameInput"><?= $card['name'] ?></div>
+                                        <div class="cardContent">&#x2630;<span class="rightEntityEdit">&#x270E;</span></div>
+                                        <div class="cardPanel">
+                                            <div class="closeCardPanel">&#x2613;</div>
+                                            <div class="cardPanelTop">
+                                                <span style="font-size: 36px;">&#x2042;</span>
+                                                <div class="cardPanelTitle editable" contenteditable="true"><?= $card['name'] ?></div>
+                                                <div class="inList" style="grid-column: 1/span2; font-size: 16px; padding: 10px 60px; color: rgba(10,10,10,0.6);">
+                                                    In list <?= $list['name'] ?>
+                                                </div>
+                                            </div>
+                                            <br/>
+                                            <hr/>
+                                            <div class="cardPanelDesc">
+                                                <span style="font-size: 36px;">&#x274F;</span><span style="margin-left: 10px; font-size: 26px;">Description</span>
+                                                <span style="margin-left: 50%"><button type="button" class="saveDesc">Save</button></span>
+                                                <div class="cardDescription" contenteditable="true">
+                                                    <?= nl2br($card['description']) ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php
+                                    }
+                                ?>
 
-                    <div class="cardsContainer">
-                        <div class="card draggableCard" draggable="true">Card four</div>
-                        <div class="card draggableCard" draggable="true">Card five</div>
-                        <div class="card draggableCard" draggable="true">Card six</div>
-                    </div>
+                            </div>
 
-                    <div class="addCard">
-                        <table class="addAnotherCardTable"><tr><td class="addSign-card">+</td><td class="addAnotherCard">Add Card</td></tr></table>
-                        <form action="" method="post" class="addCardForm">
-                            <input type="text" name="cardName" class="cardName" placeholder="Enter Card name:" /><br/>
-                            <table>
-                                <tr>
-                                    <td><input type="submit" name="createCard" class="createCard" value="Create"/></td>
-                                    <td><img src="../images/closeIcon.png" alt="close" class="closeCreateCard"/></td>
-                                </tr>
-                            </table>
-                        </form>
-                    </div>
-                </div>
+                                <div class="addCard">
+                                    <table class="addAnotherCardTable"><tr><td class="addSign-card">+</td><td class="addAnotherCard">Add Card</td></tr></table>
+                                    <div class="addCardForm">
+                                        <input type="text" name="cardName" class="cardName" placeholder="Enter Card name:" /><br/>
+                                        <table>
+                                            <tr>
+                                                <td><button type="button" class="createCard">Create</button></td>
+                                                <td><img src="../images/closeIcon.png" alt="close" class="closeCreateCard"/></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
 
-                <div class="list draggableList" draggable="true">
-                    <div class="listName">
-                        Card Name
-                    </div>
-
-                    <div class="cardsContainer">
-                        <div class="card draggableCard" draggable="true">Card four</div>
-                        <div class="card draggableCard" draggable="true">Card five</div>
-                        <div class="card draggableCard" draggable="true">Card six</div>
-                    </div>
-
-                    <div class="addCard">
-                        <table class="addAnotherCardTable"><tr><td class="addSign-card">+</td><td class="addAnotherCard">Add Card</td></tr></table>
-                        <form action="" method="post" class="addCardForm">
-                            <input type="text" name="cardName" class="cardName" placeholder="Enter Card name:" /><br/>
-                            <table>
-                                <tr>
-                                    <td><input type="submit" name="createCard" class="createCard" value="Create"/></td>
-                                    <td><img src="../images/closeIcon.png" alt="close" class="closeCreateCard"/></td>
-                                </tr>
-                            </table>
-                        </form>
-                    </div>
-                </div>
-
-                    <div class="list draggableList" draggable="true">
-                        <div class="listName">
-                            Card Name
                         </div>
 
-                        <div class="cardsContainer">
-                            <div class="card draggableCard" draggable="true">Card four</div>
-                            <div class="card draggableCard" draggable="true">Card five</div>
-                            <div class="card draggableCard" draggable="true">Card six</div>
-                        </div>
+                    <?php
+                        }
+                    ?>
 
-                        <div class="addCard">
-                            <table class="addAnotherCardTable"><tr><td class="addSign-card">+</td><td class="addAnotherCard">Add Card</td></tr></table>
-                            <form action="" method="post" class="addCardForm">
-                                <input type="text" name="cardName" class="cardName" placeholder="Enter Card name:" /><br/>
-                                <table>
-                                    <tr>
-                                        <td><input type="submit" name="createCard" class="createCard" value="Create"/></td>
-                                        <td><img src="../images/closeIcon.png" alt="close" class="closeCreateCard"/></td>
-                                    </tr>
-                                </table>
-                            </form>
-                        </div>
-                    </div>
-
-            </div>
+                </div>
 
                 <!-- add list div -->
                 <div class="addList">
                     <table style="padding-left: 25px" class="addAnotherListTable"><tr><td class="addSign">+</td><td class="addAnotherList">Add another list</td></tr></table>
-                    <form action="" method="post" class="addListForm">
+                    <div class="addListForm">
                         <input type="text" name="listName" id="listName" placeholder="Enter List name:"/><br/>
                         <table>
                             <tr>
-                                <td><input type="submit" name="createList" id="createList" value="Create"/></td>
+                                <td><button type="button" id="createList">Create</button></td>
                                 <td><img src="../images/closeIcon.png" alt="close" id="closeCreateList"/></td>
                             </tr>
                         </table>
-                    </form>
+                    </div>
                 </div>
+
             </div>
 
         </div>  <!-- end of lists area -->
@@ -188,12 +217,22 @@ include "../common/project.php";
     <!-- add board plane -->
     <div class="addBoardPlane">
         <div class="closeCreateBoardPanel"></div>
-
+        <div class="form">
+            <label for="boardNameInput">Enter Board Name</label><br/><br/>
+            <input type="text" name="boardNameInput" id="boardNameInput"/><br/><br/>
+            <button type="button" id="submitCreateCard">Create</button>
+        </div>
+        <div class="addBoardErrors"></div>
     </div>
 
-<script type="text/javascript" src="../jscripts/lists.js"></script>
-<script type="text/javascript" src="../jscripts/dragdrop.js"></script>
-<script src="../jscripts/slideBar.js"></script>
+    <!-- card panel -->
+    <div class="cardPanelGlass"></div>
+
+    <!-- scripts type=javascript -->
+    <script type="text/javascript" src="../jscripts/lists.js"></script>
+    <script type="text/javascript" src="../jscripts/dragdrop.js"></script>
+    <script src="../jscripts/slideBar.js"></script>
+    <script src="../jscripts/ajaxLists.js"></script>
 
 </body>
 </html>

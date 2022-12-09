@@ -1,3 +1,4 @@
+
 function closeSlideBar(){
     document.querySelector('.slideBar').style.width = '0';
     setTimeout("document.querySelector('.closedBar').style.display = 'block';", 240);
@@ -12,12 +13,26 @@ function openSlideBar(){
     console.log('open');
 }
 
+// close create new Board Panel
 document.querySelector('.closeCreateBoardPanel').addEventListener('click', () => {
     document.querySelector('.addBoardPlane').style.display = 'none';
 })
 
+// open create new Board Panel
 document.querySelector('a.addBoard').addEventListener('click', ()=>{
     document.querySelector('.addBoardPlane').style.display = 'block';
+})
+
+// submit create board .. ajax
+document.querySelector('#submitCreateCard').addEventListener('click', ()=>{
+    sendRequest(addBoard, RequestType.AddBoard, document.querySelector('#boardNameInput').value);
+})
+
+// change between boards
+document.querySelectorAll('table.boardsList td').forEach(row => {
+    row.addEventListener('click', ()=>{
+        window.location.href = "http://localhost/Schema/pages/boards.php?id=" + row.dataset.id;
+    })
 })
 
 

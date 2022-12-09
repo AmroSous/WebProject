@@ -46,7 +46,6 @@ function getDragAfterElement(container, y) {
 }
 
 
-
 lists.forEach(list => {
     list.addEventListener('dragstart', () => {
         list.classList.add('draggingList');
