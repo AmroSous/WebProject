@@ -1,9 +1,15 @@
 
+/* for image and the background */
+@media only screen and (max-width: 800px) {
+    .backImgTwo{
+        display: none;
+    }
+}
 .backImgTwo{
-    width: 500px;
+    width: 30%;
     position: absolute;
-    bottom: 20px;
-    right: 20px;
+    right: 5%;
+    top: 10%;
     z-index: -1;
 }
 body{
@@ -13,28 +19,38 @@ body{
     background-color: #ecddcc;
     margin: 0;
 }
+
+/* for middle div */
 div.middle{
-    margin: 30px auto;
-    width: 25%;
+    margin: 1vw auto 4vw auto;
+    width: 25vw;
+    height: 90vh;
 }
 .middle table{
-    margin: 5px auto;
+    margin: 0 auto;
 }
 .middle td{
-    padding: 5px 10px;
+    padding: 0 10px;
+}
+table.icon-title{
+    margin: 0.3vw auto;
+    width: fit-content;
+}
+table.icon-title td{
+    padding: 0.2vw 0.5vw;
 }
 .middle #appIcon{
-    width: 65px;
+    width: 5vw;
 }
 .middle #headerTitle{
-    font-size: 55px;
-    font-family: "Century Schoolbook";
+    font-size: 4vw;
+    font-family: "Century Schoolbook sans-serif";
 }
-.loginCard{
+div.loginCard, div.signupCard, div.recoverPasswordCard{
     border-radius: 30px;
     border: 1px solid rgba(0, 0, 0, 0.2);
     box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.5);
-    height: 500px;
+    background-image: linear-gradient(to top right, rgba(29, 164, 79, 0.29), rgba(218, 214, 214, 0.65));
 }
 span.desc{
     text-align: center;
@@ -43,46 +59,131 @@ span.desc{
     line-height: 25px;
     color: #2f282a;
 }
-#email, #pass, #submit{
-    width: 70%;
+.flexbox-container{
+    display: flex;
+    justify-content: center;
+}
+.flexbox-content{
+    text-align: center;
+    padding: 5px 15px;
+}
+.flexbox-content a{
+    text-decoration: none;
+    color: #1e0d73;
+}
+.flexbox-content a:hover{
+    color: #3b2b79;
+}
+
+@media only screen and (max-width: 1000px) {
+    div.middle{
+        width: 290px;
+        margin: 10px auto;
+    }
+    .middle #appIcon{
+        width: 30px;
+    }
+    .middle #headerTitle{
+        font-size: 24px;
+    }
+    .loginCard, .signupCard, .recoverPasswordCard{
+        height: 400px;
+        margin-bottom: 20px;
+    }
+    .flexbox-container{
+        flex-direction: column;
+    }
+    .middle table{
+        margin: 10px auto;
+    }
+}
+
+/* for input fields */
+
+#email, #pass, .submit, #rePass, #name, #password, #rePassword{
+    box-sizing: border-box;
+    width: 90%;
     margin: 3px auto;
     display: block;
     border-radius: 5px;
     font-size: 16px;
 }
-#email, #pass{
+#email, #pass, #rePass, #name, #password, #rePassword{
     background-color: transparent;
     border: 2px solid rgba(0, 0, 0, 0.3);
     padding: 7px 20px;
 }
-#email::placeholder, #pass::placeholder{
+#email::placeholder, #pass::placeholder, #rePass::placeholder, #name::placeholder, #password::placeholder, #rePassword::placeholder{
     color: #555555;
 }
-#submit{
+.submit{
     background-color: #4949ea;
     color: white;
     border: 2px solid #3b2b79;
     padding: 6px 20px;
 }
-#email:hover, #pass:hover{
+#email:hover, #pass:hover, #rePass:hover, #name:hover, #password:hover, #rePassword:hover{
     background-color: rgba(0,0,0,0.1);
 }
-#submit:hover{
+.submit:hover{
     border: 2px solid #4c3a94;
     background-color: #5050ec;
     cursor: pointer;
 }
-#submit:focus{
+.submit:focus{
     background-color: #3c3cec;
 }
-.loginCard td{
+p.msgVerificationCode{
+    padding: 0 20px;
+    font-size: 18px;
     text-align: center;
-    padding: 5px 15px;
 }
-.loginCard td a{
+label.labelRecoverCode{
+    display: block;
+    padding: 15px 20px;
+    margin: 10px auto;
+    font-size: 19px;
+    text-align: center;
+    color: #20144d;
+}
+input#verificationCode, input#recoverCode{
+    display: block;
+    margin: 5px auto;
+    padding: 5px 10px;
+    font-size: 3vw;
+    width: 50%;
+    text-align: center;
+}
+a#resend{
+    display: block;
+    text-decoration: none;
+    text-align: right;
+    margin: 10px 15% 25px auto;
+    color: red;
+    font-size: 17px;
+}
+a#resend:hover{
+    color: rgb(136, 55, 36);
+}
+a#signIn, a#backToLogin{
     text-decoration: none;
     color: #1e0d73;
+    display: block;
+    width: fit-content;
+    margin: 5px 20px;
 }
-.loginCard td a:hover{
+a#signIn:hover, a#backToLogin{
     color: #3b2b79;
+}
+p.errors, p.success{
+    padding: 5px 2rem;
+    font-weight: bold;
+    font-size: 1.3rem;
+    text-align: center;
+}
+p.errors{
+    color: darkred;
+}
+p.success{
+    color: green;
 }

@@ -1,0 +1,289 @@
+@import url(//fonts.googleapis.com/css?family=Lato:300:400);
+
+body {
+    margin: 0;
+}
+
+h1.title {
+    font-family: Lato, sans-serif;
+    font-weight: 300;
+    letter-spacing: 2px;
+    font-size: 48px;
+    margin: 0 auto;
+    padding: 15px 15px;
+}
+
+#des2{
+    position: relative;
+    content: "";
+    text-transform: capitalize;
+    font-family:sans-serif;
+    margin: 0;
+    padding: 15px 0 30px 0;
+    top: 270px;
+    color: red;
+}
+
+p {
+    font-family: 'Lato', sans-serif;
+    letter-spacing: 1px;
+    font-size: 14px;
+    color: #333333;
+}
+
+.header {
+    position: relative;
+    text-align: center;
+    background: linear-gradient(60deg, rgb(31 194 49) 0%, rgb(26 25 177) 100%);
+    color: white;
+    height:auto;
+    padding-bottom: 100px;
+
+}
+
+.inner-header {
+
+    height: 65vh;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.flex {
+    /*Flexbox for containers*/
+    display: unset;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+}
+
+.waves {
+    position: relative;
+    width: 100%;
+    height: 15vh;
+    margin-bottom: -7px;
+    /*Fix for safari gap*/
+    min-height: 100px;
+    max-height: 150px;
+    top: auto;
+    bottom: -97px;
+}
+
+.content {
+    position: relative;
+    height: 20vh;
+    text-align: center;
+    background-color: white;
+}
+
+/* Animation */
+
+.parallax>use {
+    animation: move-forever 25s cubic-bezier(.55, .5, .45, .5) infinite;
+}
+
+.parallax>use:nth-child(1) {
+    animation-delay: -2s;
+    animation-duration: 7s;
+}
+
+.parallax>use:nth-child(2) {
+    animation-delay: -3s;
+    animation-duration: 10s;
+}
+
+.parallax>use:nth-child(3) {
+    animation-delay: -4s;
+    animation-duration: 13s;
+}
+
+.parallax>use:nth-child(4) {
+    animation-delay: -5s;
+    animation-duration: 20s;
+}
+
+@keyframes move-forever {
+    0% {
+        transform: translate3d(-90px, 0, 0);
+    }
+
+    100% {
+        transform: translate3d(85px, 0, 0);
+    }
+}
+
+/*Shrinking for mobile*/
+@media (max-width: 768px) {
+    .waves {
+        height: 40px;
+        min-height: 40px;
+    }
+
+    .content {
+        height: 30vh;
+    }
+
+    h1.title {
+        font-size: 24px;
+    }
+
+}
+
+#slide-show {
+    position: relative;
+    max-width: 60em;
+    margin: auto;
+    left: -450px;
+    top: 270px;
+    z-index: 1;
+}
+
+#slide-show img {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: auto;
+    border: 1px solid #000;
+    box-shadow: 0.5em 0.5em 0.5em rgba(0, 0, 0, 0.4);
+    animation: fader 16s infinite;
+    opacity: 0;
+}
+
+#slide-show img:nth-child(1) {
+    animation-delay: 12s;
+}
+
+#slide-show img:nth-child(2) {
+    animation-delay: 8s;
+}
+
+#slide-show img:nth-child(3) {
+    animation-delay: 4s;
+}
+
+#slide-show img:nth-child(4) {
+    animation-delay: 0s;
+}
+
+@keyframes fader {
+    25% {
+        opacity: 1;
+
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+.content-grid{
+    background-color: rgba(189, 246, 231, 0.3);
+    display: grid;
+    justify-content: center;
+    position: relative;
+    top: 650px;
+    justify-items: center;
+    grid-template-columns: 250px repeat(2,auto);
+    grid-template-rows: auto auto 140px 140px 140px;
+    grid-auto-rows: 10px ;
+}
+#sec1{
+    font-weight: bold;
+    font-size: 40px;
+}
+#s1,#s2,#s3{
+    font-weight: bold;
+    /*font-family: sans-serif,"Charlie Text",sans-serif;*/
+    font-size: 20px;
+}
+#sec1{
+    grid-column: 1/span 3;
+}
+#sec2{
+    grid-column: 1/span 3;
+    font-size: 20px;
+    row-gap: 100px;
+    font-weight: 900;
+
+}
+#sec6{
+    border: solid 2px whitesmoke;
+    grid-column-start:2;
+    grid-row-start:3;
+    grid-row-end: 5;
+}
+#sec3{
+    grid-row-start: 3;
+}
+#sec4{
+    grid-row-start: 4;
+    grid-row-end: 5;
+    grid-column-start: 1;
+     /*border:5px solid red;*/
+}
+#sec5{
+    grid-row-start: 5;
+}
+#sec3,#sec4,#sec5{
+    background-color: rgba(189, 246, 231, 0.2);
+    cursor: pointer;
+    border-radius: 10%;
+    border-color:white ;
+}
+
+/*moving text*/
+HTML, BODY
+{ height: 100%;
+}
+
+#s-text {
+    font: 16em/1 Arial;
+}
+
+svg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+}
+
+.text-copy {
+    fill: none;
+    stroke: white;
+    stroke-dasharray: 7% 28%;
+    stroke-width: 10px;
+    animation: stroke-offset 8s 1;
+}
+
+.text-copy:nth-child(1) {
+    stroke: #591058;
+    stroke-dashoffset: 7%;
+}
+
+.text-copy:nth-child(2) {
+    stroke: #946FBF;
+    stroke-dashoffset: 14%;
+}
+
+.text-copy:nth-child(3) {
+    stroke: #CCCCCC;
+    stroke-dashoffset: 21%;
+}
+
+.text-copy:nth-child(4) {
+    stroke: #6CBCCC;
+    stroke-dashoffset: 28%;
+}
+
+.text-copy:nth-child(5) {
+    stroke: #7285D6;
+    stroke-dashoffset: 35%;
+}
+
+@keyframes stroke-offset {
+    20% {
+        stroke-dashoffset: 35%;
+        stroke-dasharray: 0 87.5%;
+    } }
+
+

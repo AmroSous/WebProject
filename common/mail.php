@@ -1,9 +1,9 @@
 <?php
   use PHPMailer\PHPMailer\PHPMailer;
   use PHPMailer\PHPMailer\Exception;
-  require 'forgot/PHPMailer-master/src/Exception.php';
-  require 'forgot/PHPMailer-master/src/PHPMailer.php';
-  require 'forgot/PHPMailer-master/src/SMTP.php';
+  require '../forgot/PHPMailer-master/src/Exception.php';
+  require '../forgot/PHPMailer-master/src/PHPMailer.php';
+  require '../forgot/PHPMailer-master/src/SMTP.php';
 
 function send_mail($recipient,$subject,$message)
 {
