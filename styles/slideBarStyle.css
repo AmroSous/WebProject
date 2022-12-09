@@ -7,17 +7,19 @@ body{
 }
 .container{
     height: 100vh;
-    background-color: transparent;
+    background-color: white;
     overflow: hidden;
 }
 
 /* slide bar */
 
 .slideBar{
-    background-color: #777;
-    height: 100vh;
+    background-color: #888;
+    height: 100%;
+    width: 18%;
     overflow-x: hidden;
     transition: width 0.3s;
+    float: left;
 }
 table.table1{
     margin: 5px;
@@ -105,8 +107,8 @@ table.boardsList{
 table.boardsList td{
     width: 100%;
     padding: 10px 15px;
-    font-size: 18px;
-    font-family: "Audiowide", sans-serif;
+    font-size: 20px;
+    font-family: Comic Sans MS;
     cursor: pointer;
 }
 table.boardsList td:hover{
@@ -114,13 +116,14 @@ table.boardsList td:hover{
 }
 .closedBar{
     width: 15px;
-    height: 100vh;
-    background-color: rgba(50, 50, 50, 0.2);
+    height: 100%;
+    background-color: rgba(100, 100, 100, 0.4);
     border: 1px solid rgba(50, 50, 50, 0.8);
     display: none;
+    float: left;
 }
 .closedBar:hover{
-    background-color: rgba(50, 50, 50, 0.4);
+    background-color: rgba(100, 100, 100, 0.6);
 }
 a.openSlideBar{
     position: absolute;
@@ -145,40 +148,60 @@ div.openImg{
     height: 100%;
 }
 
-/* board space */
-
-.board{
-    height: 100vh;
+div.addBoardPlane{
+    position: absolute;
+    width: 35%;
+    height: 40%;
+    background-color: rgba(220, 220, 220);
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    border-radius: 20px;
+    display: none;
 }
-.topBar{
-    background-color: red;
-    height: 50px;
+div.closeCreateBoardPanel{
+    background-image: url("../images/close1.png");
+    background-size: cover;
+    position: absolute;
+    right: 3px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
 }
-.listsContainer{
-    display: flex;
-    flex-flow: column;
-    overflow-x: scroll;
-    padding: 20px 50px;
-    width: auto;
-    height: 100%;
+div.addBoardPlane div.form{
+    margin: 20px auto;
+    padding: 15px 20px;
+    width: 80%;
+    box-sizing: border-box;
 }
-.list{
-
+div.form input#boardNameInput{
+    font-family: Arial;
+    font-size: 18px;
+    padding: 5px 10px;
+    width: 80%;
+    outline-color: red;
 }
-.card{
-
+div.form label{
+    font-family: Arial;
+    font-size: 18px;
 }
-.addList{
+div.form button{
+    margin-top: 10px;
+    width: 50%;
+    padding: 10px;
+    color: white;
+    background-color: black;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
 }
-.addAnotherList{
-
+div.form button:hover{
+    background-color: #181818;
 }
-#listName{
-
-}
-#createList{
-
-}
-.closeCreateList{
-
+div.addBoardErrors{
+    width: 90%;
+    margin: 3px auto;
+    font-size: 16px;
+    color: red;
+    text-align: center;
 }
