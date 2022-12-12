@@ -1,0 +1,204 @@
+@import "https://fonts.googleapis.com/css?family=Audiowide|Sofia|Trirong";
+
+.lists{
+    background-image: url("../../images/bg5.jpg");
+}
+.topBar{
+    background-color: rgba(255,255,255,0.2);
+}
+.list{
+    background-color: rgba(90, 90, 234, 0.5);
+}
+table.addAnotherListTable{
+    background-color: rgba(220, 220, 220, 0.3);
+}
+table.addAnotherListTable:hover{
+    background-color: rgba(220, 220, 220, 0.47);
+}
+div.addListForm{
+    background-color: rgb(230,230,230);
+}
+input#listName{
+    border: 2px solid blue;
+}
+button#createList{
+    color: white;
+    background-color: #1e0d73;
+}
+button#createList:hover{
+    background-color: #2b188a;
+}
+img#closeCreateList:hover{
+    background-color: #bbb;
+}
+table.addAnotherCardTable{
+    background-color: rgba(220, 220, 220, 0.3);
+}
+table.addAnotherCardTable:hover{
+    background-color: rgba(220,220,220,0.5);
+}
+div.addCardForm{
+    background-color: rgb(230,230,230);
+}
+input.cardName{
+    border: 2px solid blue;
+}
+button.createCard{
+    color: white;
+    background-color: #2c1a8a;
+}
+button.createCard:hover{
+    background-color: #372691;
+}
+img.closeCreateCard:hover{
+    background-color: #bbb;
+}
+p.boardNameTopBar{
+    font-family: "Comic Sans MS";
+    color: #fff3a0;
+}
+.card{
+    background-color: #1d721d;
+}
+.card:hover{
+    background-color: #3eaf3e;
+}
+div.cardContent span.rightEntityEdit:hover{
+    color: darkred;
+}
+div.cardSetting{
+    background-color: #8e9b8e;
+}
+div.cardSettingDelete:hover, div.cardSettingOpen:hover{
+    background-color: #888;
+}
+div.cardPanelGlass {
+    background-color: rgba(79, 75, 75, 0.5);
+}
+div.cardPanel {
+    background-color: white;
+}
+.closeCardPanel:hover{
+    background-color: rgba(50,50,50,0.3);
+}
+.cardPanelTitle{
+    caret-color: blue;
+    outline-color: blue;
+}
+.inList{
+    color: rgba(10,10,10,0.6);
+}
+.cardPanelDesc{
+
+}
+.cardDescription{
+    border: #8e9b8e;
+    background-color: #cfeff3;
+    box-shadow: 1px 1px 8px #4f4d4d;
+}
+button.saveDesc{
+    color: white;
+    background-color: #2b188a;
+}
+button:hover{
+    background-color: #3c27a2;
+}
+div.binImage{
+    filter: invert(70%) sepia(100%) saturate(150%) drop-shadow(-25px 10px 4px #444);
+}
+/*-------------------------------------------------------------*/
+
+.slideBar{
+    background-color: #262323;
+}
+.wsImage{
+    background-image: linear-gradient(to bottom, blue, #5a78ff);
+}
+.wsName{
+    color: #00eaff;
+}
+a.closeSlideBar{
+    color: black;
+}
+a.closeSlideBar:hover{
+    background-color: #666;
+}
+a.closeSlideBar:active{
+    background-color: #555;
+}
+div.closeImg{
+    background-image: url("../../images/left.png");
+    filter: invert(100%) opacity(80%) contrast(150%);
+}
+hr{
+    border-top: 1px rgb(236, 221, 204) solid;
+}
+.table2 td{
+    color: #00eaff;
+}
+a.addBoard{
+    color: #00ff16;
+}
+a.addBoard:hover{
+    background-color: #3a3a38;
+}
+a.addBoard:active{
+    background-color: #555;
+}
+table.boardsList td{
+    color: #c8d0c8;
+}
+table.boardsList td:hover{
+    background-color: #413d3d;
+}
+span.ellipseSpan:hover{
+    background-color: #4f4d4d;
+}
+.closedBar{
+    background-color: rgba(100, 100, 100, 0.4);
+    border: 1px solid rgba(50, 50, 50, 0.8);
+}
+.closedBar:hover{
+    background-color: rgba(100, 100, 100, 0.6);
+}
+a.openSlideBar{
+    background-color: rgba(50,50,50,0.4);
+}
+a.openSlideBar:hover{
+    background-color: rgba(50,50,50,0.6);
+}
+div.openImg{
+    background-image: url("../../images/right.png");
+}
+div.addBoardPlane{
+    background-color: rgba(220, 220, 220);
+}
+div.closeCreateBoardPanel{
+    background-image: url("../../images/close1.png");
+}
+div.form input#boardNameInput{
+    outline-color: red;
+}
+div.form button{
+    color: white;
+    background-color: black;
+}
+div.form button:hover{
+    background-color: #181818;
+}
+div.addBoardErrors{
+    color: red;
+}
+div.contextBoards{
+    background-color: white;
+    background-color: #bbb;
+}
+div.contextBoards div:hover{
+    background-color: #999;
+}
+div.boardRenamePane{
+    background-color: #312121;
+}
+div.renameBoardGlass{
+    background-color: rgba(225, 225, 225, 0.17);
+}

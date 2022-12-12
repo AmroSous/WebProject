@@ -1,5 +1,8 @@
 
-
+document.querySelector('li div.userImg').addEventListener('click', e=>{
+    e.stopPropagation();
+    showPopup(document.querySelector('li div.userImg'), 'userProfile');
+})
 function showPopup(button, elementClass){
     const element = document.querySelector('.'.concat(elementClass));
     if (element.style.height != '170px') {
