@@ -43,6 +43,12 @@ $stmt->bindParam(':id', $_SESSION['workspaceId']);
 $stmt->execute();
 $stmt->setFetchMode(PDO::FETCH_ASSOC);
 $boards = $stmt->fetchAll();
+$boardTemplate = '';
+foreach ($boards as $board){
+    if ($board['id'] == $_SESSION['boardId']){
+        $boardTemplate = $board['template'];
+    }
+}
 // ----------------------------
 $prep = "select * from `lists` where `board_id` = :id order by `serial`";
 $stmt = $conn->prepare($prep);
@@ -76,6 +82,8 @@ $conn = NULL;
 
     <link rel="stylesheet" href="../styles/slideBarStyle.css" />
     <link rel="stylesheet" href="../styles/listsStyle.css" />
+    <link rel="stylesheet" href="../<?= $boardTemplate ?>"/>
+
 
     <title><?= $_SESSION['boardName'] ?></title>
 </head>
@@ -108,8 +116,8 @@ $conn = NULL;
                 <table class="boardsList">
                     <?php
                         foreach ($boards as $board ){
-                            echo "<tr><td data-id='". $board['id'] ."'>";
-                            echo $board['name'];
+                            echo "<tr><td id='board". $board['id'] ."' data-id='". $board['id'] ."'>";
+                            echo "<span>".$board['name']."</span><span class='ellipseSpan'>&#x22EF;</span>";
                             echo "</td></tr>";
                         }
                     ?>
@@ -125,88 +133,102 @@ $conn = NULL;
 
             <div class="flexBox">
 
-                <div class="listsContainer">
+                    <div class="listsContainer">
 
-                    <?php
-                        foreach ($lists_cards as $pair){
-                            if ($pair === -1) continue;
-                            $list = $pair->list;
-                            $cards = $pair->cards;
-                    ?>
+                        <?php
+                            foreach ($lists_cards as $pair){
+                                if ($pair === -1) continue;
+                                $list = $pair->list;
+                                $cards = $pair->cards;
+                        ?>
 
-                        <div class="list draggableList" draggable="true" data-id="<?= $list['id'] ?>" id="list<?= $list['id'] ?>">
-                            <div class="listName editable" contenteditable="true">
-                                <?= $list['name'] ?>
-                            </div>
+                            <div class="list draggableList" draggable="true" data-id="<?= $list['id'] ?>" id="list<?= $list['id'] ?>">
+                                <div class="listName editable" contenteditable="true">
+                                    <?= $list['name'] ?>
+                                </div>
 
-                            <div class="cardsContainer">
+                                <div class="cardsContainer">
 
-                                <?php
-                                    foreach ($cards as $card){
-                                ?>
-                                    <div class="card draggableCard" draggable="true" data-id="<?= $card['id'] ?>" id="card<?= $card['id'] ?>">
-                                        <div class="cardNameInput"><?= $card['name'] ?></div>
-                                        <div class="cardContent">&#x2630;<span class="rightEntityEdit">&#x270E;</span></div>
-                                        <div class="cardPanel">
-                                            <div class="closeCardPanel">&#x2613;</div>
-                                            <div class="cardPanelTop">
-                                                <span style="font-size: 36px;">&#x2042;</span>
-                                                <div class="cardPanelTitle editable" contenteditable="true"><?= $card['name'] ?></div>
-                                                <div class="inList" style="grid-column: 1/span2; font-size: 16px; padding: 10px 60px; color: rgba(10,10,10,0.6);">
-                                                    In list <?= $list['name'] ?>
-                                                </div>
+                                    <?php
+                                        foreach ($cards as $card){
+                                    ?>
+                                        <div class="card draggableCard" draggable="true" data-id="<?= $card['id'] ?>" id="card<?= $card['id'] ?>">
+                                            <div class="relativeCard" style="position: relative; overflow: hidden;">
+                                                <div class="cardNameInput"><?= $card['name'] ?></div>
+                                                <div class="cardContent">&#x2630;
+                                                    <span class="rightEntityEdit">&#x270E;
+                                                        <div class="cardSetting">
+                                                            <div class="cardSettingDelete">
+                                                                &#x2717;
+                                                            </div>
+                                                            <div class="cardSettingOpen">
+                                                                &#x27AA;
+                                                            </div>
+                                                        </div>
+                                                    </span></div>
+
                                             </div>
-                                            <br/>
-                                            <hr/>
-                                            <div class="cardPanelDesc">
-                                                <span style="font-size: 36px;">&#x274F;</span><span style="margin-left: 10px; font-size: 26px;">Description</span>
-                                                <span style="margin-left: 50%"><button type="button" class="saveDesc">Save</button></span>
-                                                <div class="cardDescription" contenteditable="true">
-                                                    <?= nl2br($card['description']) ?>
+                                            <div class="cardPanel">
+                                                <div class="closeCardPanel">&#x2613;</div>
+                                                <div class="cardPanelTop">
+                                                    <span style="font-size: 36px;">&#x2042;</span>
+                                                    <div class="cardPanelTitle editable" contenteditable="true"><?= $card['name'] ?></div>
+                                                    <div class="inList">
+                                                        In list <?= $list['name'] ?>
+                                                    </div>
+                                                </div>
+                                                <br/>
+                                                <hr/>
+                                                <div class="cardPanelDesc">
+                                                    <span style="font-size: 36px;">&#x274F;</span><span style="margin-left: 10px; font-size: 26px;">Description</span>
+                                                    <span style="margin-left: 50%"><button type="button" class="saveDesc">Save</button></span>
+                                                    <div class="cardDescription" contenteditable="true">
+                                                        <?= nl2br($card['description']) ?>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
+                                    <?php
+                                        }
+                                    ?>
+
+                                </div>
+
+                                    <div class="addCard">
+                                        <table class="addAnotherCardTable"><tr><td class="addSign-card">+</td><td class="addAnotherCard">Add Card</td></tr></table>
+                                        <div class="addCardForm">
+                                            <input type="text" name="cardName" class="cardName" placeholder="Enter Card name:" /><br/>
+                                            <table>
+                                                <tr>
+                                                    <td><button type="button" class="createCard">Create</button></td>
+                                                    <td><img src="../images/closeIcon.png" alt="close" class="closeCreateCard"/></td>
+                                                </tr>
+                                            </table>
+                                        </div>
                                     </div>
-                                <?php
-                                    }
-                                ?>
 
                             </div>
 
-                                <div class="addCard">
-                                    <table class="addAnotherCardTable"><tr><td class="addSign-card">+</td><td class="addAnotherCard">Add Card</td></tr></table>
-                                    <div class="addCardForm">
-                                        <input type="text" name="cardName" class="cardName" placeholder="Enter Card name:" /><br/>
-                                        <table>
-                                            <tr>
-                                                <td><button type="button" class="createCard">Create</button></td>
-                                                <td><img src="../images/closeIcon.png" alt="close" class="closeCreateCard"/></td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </div>
+                        <?php
+                            }
+                        ?>
 
-                        </div>
-
-                    <?php
-                        }
-                    ?>
-
-                </div>
-
-                <!-- add list div -->
-                <div class="addList">
-                    <table style="padding-left: 25px" class="addAnotherListTable"><tr><td class="addSign">+</td><td class="addAnotherList">Add another list</td></tr></table>
-                    <div class="addListForm">
-                        <input type="text" name="listName" id="listName" placeholder="Enter List name:"/><br/>
-                        <table>
-                            <tr>
-                                <td><button type="button" id="createList">Create</button></td>
-                                <td><img src="../images/closeIcon.png" alt="close" id="closeCreateList"/></td>
-                            </tr>
-                        </table>
                     </div>
-                </div>
+
+                    <!-- add list div -->
+                    <div class="addList">
+                        <table style="padding-left: 25px" class="addAnotherListTable"><tr><td class="addSign">+</td><td class="addAnotherList">Add another list</td></tr></table>
+                        <div class="addListForm">
+                            <input type="text" name="listName" id="listName" placeholder="Enter List name:"/><br/>
+                            <table>
+                                <tr>
+                                    <td><button type="button" id="createList">Create</button></td>
+                                    <td><img src="../images/closeIcon.png" alt="close" id="closeCreateList"/></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
 
             </div>
 
@@ -218,8 +240,15 @@ $conn = NULL;
     <div class="addBoardPlane">
         <div class="closeCreateBoardPanel"></div>
         <div class="form">
-            <label for="boardNameInput">Enter Board Name</label><br/><br/>
+            <label for="boardNameInput">Enter Board Name</label><br/>
             <input type="text" name="boardNameInput" id="boardNameInput"/><br/><br/>
+            <div class="boardTemplateSection">
+                <label for="boardTemplate">Choose Template:</label>
+                <select name="boardTemplate" id="boardTemplate" required>
+                    <option value="styles/templates/default.css" selected>default style</option>
+                    <option value="styles/templates/sunset.css">sunset style</option>
+                </select>
+            </div><br/>
             <button type="button" id="submitCreateCard">Create</button>
         </div>
         <div class="addBoardErrors"></div>
@@ -228,11 +257,92 @@ $conn = NULL;
     <!-- card panel -->
     <div class="cardPanelGlass"></div>
 
+    <!-- list copy for add list function -->
+    <div class="list draggableList copySampleList" draggable="true" data-id="1" id="list1">
+        <div class="listName editable" contenteditable="true">
+            name
+        </div>
+
+        <div class="cardsContainer">
+        </div>
+
+        <div class="addCard">
+            <table class="addAnotherCardTable"><tr><td class="addSign-card">+</td><td class="addAnotherCard">Add Card</td></tr></table>
+            <div class="addCardForm">
+                <input type="text" name="cardName" class="cardName" placeholder="Enter Card name:" /><br/>
+                <table>
+                    <tr>
+                        <td><button type="button" class="createCard">Create</button></td>
+                        <td><img src="../images/closeIcon.png" alt="close" class="closeCreateCard"/></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- card copy for add card function -->
+    <div class="card draggableCard copySampleCard" draggable="true" data-id="1" id="card1">
+        <div class="relativeCard" style="position: relative; overflow: hidden;">
+            <div class="cardNameInput">name</div>
+            <div class="cardContent">&#x2630;
+                <span class="rightEntityEdit">
+                    &#x270E;
+                    <div class="cardSetting">
+                        <div class="cardSettingDelete">
+                            &#x2717;
+                        </div>
+                        <div class="cardSettingOpen">
+                            &#x27AA;
+                        </div>
+                    </div>
+                </span>
+            </div>
+
+        </div>
+        <div class="cardPanel">
+            <div class="closeCardPanel">&#x2613;</div>
+            <div class="cardPanelTop">
+                <span style="font-size: 36px;">&#x2042;</span>
+                <div class="cardPanelTitle editable" contenteditable="true">name</div>
+                <div class="inList" style="grid-column: 1/span2; font-size: 16px; padding: 10px 60px; color: rgba(10,10,10,0.6);">
+                    In list LIST
+                </div>
+            </div>
+            <br/>
+            <hr/>
+            <div class="cardPanelDesc">
+                <span style="font-size: 36px;">&#x274F;</span><span style="margin-left: 10px; font-size: 26px;">Description</span>
+                <span style="margin-left: 50%"><button type="button" class="saveDesc">Save</button></span>
+                <div class="cardDescription" contenteditable="true">
+                    description
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="binContainer">
+        <div class="binImage">
+        </div>
+    </div>
+
+    <div class="contextBoards" data-source="">
+        <div class="contextBoardsDelete">Delete</div>
+        <hr/>
+        <div class="contextBoardsRename">Rename</div>
+    </div>
+
+    <div class="boardRenamePane">
+        <input type="text" id="boardRenameInput"  required/>
+    </div>
+
+    <div class="renameBoardGlass"></div>
+
     <!-- scripts type=javascript -->
     <script type="text/javascript" src="../jscripts/lists.js"></script>
     <script type="text/javascript" src="../jscripts/dragdrop.js"></script>
     <script src="../jscripts/slideBar.js"></script>
     <script src="../jscripts/ajaxLists.js"></script>
+    <script src="../jscripts/cardSetting.js"></script>
 
 </body>
 </html>

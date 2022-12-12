@@ -42,15 +42,15 @@ closeAddListButton.addEventListener('click', () => {
 
 // display edit entity when hover card
 document.querySelectorAll('.card').forEach(card => {
-    card.addEventListener('mouseover', () => {
-        card.children[1].lastElementChild.style.display = 'block';
+    card.addEventListener('mouseover', e => {
+        card.querySelector('span.rightEntityEdit').style.visibility = 'visible';
     })
 })
 
 // hide edit entity when not hover card
 document.querySelectorAll('.card').forEach(card => {
-    card.addEventListener('mouseout', () => {
-        card.children[1].lastElementChild.style.display = 'none';
+    card.addEventListener('mouseout', e => {
+        card.querySelector('span.rightEntityEdit').style.visibility = 'hidden';
     })
 })
 
@@ -95,7 +95,16 @@ document.querySelectorAll('.listName').forEach(field => {
         arr['listID'] = field.parentElement.dataset.id;
         arr['name'] = field.innerText;
         sendRequest(changeListName, RequestType.ListName, JSON.stringify(arr));
-    })
+    });
+    field.addEventListener('keydown', e=>{
+        if (e.keyCode === 13) {
+            const arr = {};
+            arr['listID'] = field.closest('.list').dataset.id;
+            arr['name'] = field.innerText;
+            field.blur();
+            sendRequest(changeListName, RequestType.ListName, JSON.stringify(arr));
+        }
+    });
 })
 
 // change card name listener
@@ -150,9 +159,9 @@ document.querySelector('#createList').addEventListener('click', e=>{
 
 //  ------------------------------------------------  create new card function --------------------------
 
-function createCard(cardsContainer, cardName, cardID){
+function createCard(cardsContainer, cardName, cardID, listName){
     //clone existing card
-    const card = cardsContainer.firstElementChild.cloneNode(true);
+    const card = document.querySelector('.copySampleCard').cloneNode(true);
 
     // ===================================== change attributes and innerHTML =============
 
@@ -160,6 +169,7 @@ function createCard(cardsContainer, cardName, cardID){
     card.id = 'card'.concat(cardID);
     card.querySelector('.cardNameInput').innerHTML = cardName;
     card.querySelector('.cardPanelTitle').innerHTML = cardName;
+    card.querySelector('.inList').innerHTML = 'In list '.concat(listName);
     card.querySelector('.cardDescription').innerHTML = '';
 
     //===================================== add event listeners ===========================
@@ -173,12 +183,32 @@ function createCard(cardsContainer, cardName, cardID){
         event.stopPropagation();
         card.classList.remove('dragging');
         card.classList.remove('invisible');
+
+        // save new serial numbers for all cards in the list affected           --- AJAX
+        const list = card.closest('.list');            // destination list
+        const cards = list.querySelectorAll('.card');  // cards in destination list
+        const arr = {};
+        const card_serial = {};
+        for (let i = 1; i <= cards.length; i++){
+            card_serial[cards[i-1].dataset.id] = i;
+        }
+        arr['card_serial'] = card_serial;                      // card-serial array in destination list with new card
+        arr['listID'] = list.dataset.id;                       // destination list id
+        arr['cardID'] = card.dataset.id;                       // dragged card id
+        if (card_serial[arr['cardID']] == 1){
+            arr['prevSibling'] = -1;
+        }else {
+            arr['prevSibling'] = card.previousElementSibling.dataset.id;    // previous card of dragged card in destination
+        }
+        sendRequest(changeCardOrder, RequestType.CardOrder, JSON.stringify(arr));
+        //
+
     });
     card.addEventListener('mouseover', () => {
-        card.children[1].lastElementChild.style.display = 'block';
+        card.querySelector('.rightEntityEdit').style.visibility = 'visible';
     });
     card.addEventListener('mouseout', () => {
-        card.children[1].lastElementChild.style.display = 'none';
+        card.querySelector('.rightEntityEdit').style.visibility = 'hidden';
     });
     card.querySelector('.cardPanelTitle').addEventListener('keypress', evt => {
         if (evt.which === 13) {
@@ -211,8 +241,34 @@ function createCard(cardsContainer, cardName, cardID){
         arr['desc'] = card.querySelector('.cardDescription').innerText;
         sendRequest(changeCardDesc, RequestType.CardDesc, JSON.stringify(arr));
     });
+    card.querySelector('span.rightEntityEdit').addEventListener('mouseover', e=> {
+        const setting = card.querySelector('.cardSetting');
+        setting.style.visibility = 'visible';
+        setting.style.width = '50px';
+    });
+    card.querySelector('span.rightEntityEdit').addEventListener('mouseout', e=> {
+        const setting = card.querySelector('.cardSetting');
+        setting.style.width = '0';
+        setting.style.visibility = 'hidden';
+    });
+    card.querySelector('.cardSettingOpen').addEventListener('click', e=>{
+        e.stopPropagation();
+        document.querySelector('.cardPanelGlass').style.display = 'block';
+        card.querySelector('.cardPanel').style.display = 'block';
+        card.querySelector('.cardPanel').classList.add('displayed');
+    })
+
+    card.querySelector('.cardSettingDelete').addEventListener('click', e=>{
+        e.stopPropagation();
+        if (confirm("Are you sure you want to delete ".concat(card.querySelector('.cardNameInput').innerHTML).concat(" card ?"))){
+            const arr = {};
+            arr['cardID'] = card.dataset.id;
+            sendRequest(deleteCard, RequestType.DeleteCard, JSON.stringify(arr));
+        }
+    })
     // ============================================ append new card =====================
     cardsContainer.appendChild(card);
+    cardsContainer.closest('.list').querySelector('input.cardName').value = '';
 }
 
 // --------------------------------- create new list function -----------------------------------------------------------------
@@ -221,7 +277,7 @@ function createList(listName, listID){
 
     // ======================================= clone copy of list and change contents ====
 
-    const cloneSource = document.querySelector('.listsContainer').firstElementChild;
+    const cloneSource = document.querySelector('.copySampleList');
     const list = cloneSource.cloneNode();
     list.dataset.id = listID;
     list.id = 'list'.concat(listID);
@@ -240,6 +296,12 @@ function createList(listName, listID){
     list.addEventListener('dragstart', () => {
         list.classList.add('draggingList');
         setTimeout(()=>{list.className += ' invisible'}, 0);
+
+        // show trash
+        const trash = document.querySelector('.binContainer');
+        trash.style.rotate = "-35deg";
+        trash.style.translate = "-135px";
+        //
     });
     const ee = list.querySelector('.cardsContainer');
     ee.addEventListener('dragover', e => {
@@ -252,9 +314,40 @@ function createList(listName, listID){
             ee.insertBefore(draggable, afterElement)
         }
     })
-    list.addEventListener('dragend', () => {
-        list.classList.remove('draggingList');
-        list.classList.remove('invisible');
+    list.addEventListener('dragend', e => {
+        const trash_coor = {};
+        const rect = document.querySelector('.binContainer').getBoundingClientRect();
+        trash_coor['top'] = rect.top;
+        trash_coor['bottom'] = rect.bottom;
+        trash_coor['left'] = rect.left;
+        trash_coor['right'] = rect.right;
+
+        if (e.clientX > trash_coor['left'] && e.clientX < trash_coor['right'] && e.clientY > trash_coor['top'] && e.clientY < trash_coor['bottom']){
+            // remove list ---- AJAX
+            const arr = {};
+            arr['listID'] = list.dataset.id;
+            sendRequest(deleteList, RequestType.DeleteList, JSON.stringify(arr));
+        }
+        else{
+            list.classList.remove('draggingList');
+            list.classList.remove('invisible');
+
+            // save new serial numbers for all lists
+            const lists = document.querySelectorAll('.listsContainer .list');
+            const arr = {};
+            for (let i = 1; i <= lists.length; i++){
+                arr[lists[i-1].dataset.id] = i;
+            }
+            sendRequest(changeListOrder, RequestType.ListOrder, JSON.stringify(arr));
+            //
+        }
+
+
+        // hide trash
+        const trash = document.querySelector('.binContainer');
+        trash.style.rotate = "35deg";
+        trash.style.translate = "135px";
+
     });
     list.querySelector('.editable').addEventListener('keypress', evt => {
         if (evt.which === 13) {
@@ -266,6 +359,15 @@ function createList(listName, listID){
         arr['listID'] = list.dataset.id;
         arr['name'] = list.querySelector('.listName').innerText;
         sendRequest(changeListName, RequestType.ListName, JSON.stringify(arr));
+    })
+    list.querySelector('.listName').addEventListener('keydown', e=>{
+        if (e.keyCode === 13) {
+            const arr = {};
+            arr['listID'] = list.dataset.id;
+            arr['name'] = list.querySelector('.listName').innerText;
+            list.querySelector('.listName').blur();
+            sendRequest(changeListName, RequestType.ListName, JSON.stringify(arr));
+        }
     })
     list.querySelector('button.createCard').addEventListener('click', ()=>{
         const container = list.querySelector('.cardsContainer');
@@ -280,4 +382,10 @@ function createList(listName, listID){
     // ========================================= append new list =================
 
     document.querySelector('.listsContainer').appendChild(list);
+    document.querySelector('input#listName').value = '';
 }
+
+// ------------------------------------- trash for lists -------------------------
+
+
+

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 09, 2022 at 02:52 PM
+-- Generation Time: Dec 12, 2022 at 10:50 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -40,8 +40,8 @@ CREATE TABLE `boards` (
 
 INSERT INTO `boards` (`id`, `name`, `workspace_id`, `template`) VALUES
 (1, 'Front end Board', 1, 'styles/templates/default.css'),
-(2, 'Back end Board', 1, 'styles/templates/default.css'),
-(3, 'Project Report Section', 1, 'styles/templates/default.css');
+(5, 'MY PROJECT', 1, 'styles/templates/default.css'),
+(7, 'Styling design', 1, 'styles/templates/sunset.css');
 
 -- --------------------------------------------------------
 
@@ -63,10 +63,20 @@ CREATE TABLE `cards` (
 
 INSERT INTO `cards` (`id`, `name`, `description`, `list_id`, `serial`) VALUES
 (1, 'Login System', 'We have to build complete login system that is consists of:\n1- login\n2- sign up\n3- forget password\n4- sessions\n5- mail verification code\n6- test add description', 1, 1),
-(2, 'Home Page', 'This is the first page displayed when the user request the website.', 1, 2),
-(3, 'First Structure', 'files of our website :\n1- pages\n2- common\n3- styles\n4- scripts\n5- functions', 3, 1),
-(4, 'Add Board Test', 'some description here ', 1, 3),
-(6, 'carding', 'tabban', 10, 2);
+(2, 'Home Page', 'This is the first page displayed when the user request the website.', 2, 2),
+(3, 'First Structure', 'files of our website :\n1- pages\n2- common\n3- styles\n4- scripts\n5- functions', 2, 1),
+(7, 'card', '', 1, 2),
+(8, 'another card', '', 1, 1),
+(9, 'card text', 'HELLO', 1, 2),
+(14, 'Build initial structure', 'initial files structures ', 17, 1),
+(15, 'Add some features', 'styles and templates UI ..', 14, 1),
+(16, 'Control database', 'requests handlers for AJAX in JSON format \ndelete items \nadding lists, cards and boards\nmaintain order of cards and lists', 15, 1),
+(17, 'add listeners', 'listeners for several events like \n- click \n- drag\n- hover \n- focus', 16, 2),
+(18, 'develop html', 'HTML elements \nCSS default style ', 16, 1),
+(19, 'security check', 'against some attacks like \n- SQL injection \n- XXS\n- Brute forcing', 15, 2),
+(24, 'first card', '', 29, 1),
+(25, 'second card', '', 29, 1),
+(26, 'third card', '', 30, 1);
 
 -- --------------------------------------------------------
 
@@ -86,12 +96,14 @@ CREATE TABLE `lists` (
 --
 
 INSERT INTO `lists` (`id`, `name`, `board_id`, `serial`) VALUES
-(1, 'BRAIN STORM', 1, 1),
-(2, 'To Do', 1, 2),
-(3, 'Doing ', 1, 3),
-(4, 'Done', 1, 4),
-(5, 'add list text', 1, 5),
-(10, 'jjjj', 1, 10);
+(1, 'BRAIN STORM', 1, 2),
+(2, 'To Do now', 1, 1),
+(14, 'BRAIN STORM', 5, 1),
+(15, 'TO DO', 5, 2),
+(16, 'DOING', 5, 3),
+(17, 'DONE', 5, 4),
+(29, 'First list', 7, 1),
+(30, 'Second list', 7, 2);
 
 -- --------------------------------------------------------
 
@@ -180,19 +192,19 @@ ALTER TABLE `workspaces`
 -- AUTO_INCREMENT for table `boards`
 --
 ALTER TABLE `boards`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `cards`
 --
 ALTER TABLE `cards`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `lists`
 --
 ALTER TABLE `lists`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `users`

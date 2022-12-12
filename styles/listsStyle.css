@@ -1,22 +1,41 @@
 /* board space */
 
 .lists{
-    background-image: url("../images/bg2.jpg");
     background-size: cover;
     height: 100%;
 }
+/* scroll bar style */
+/* width */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
 .topBar{
     height: 7%;
-    background-color: rgba(255,255,255,0.2);
 }
 .flexBox{
     display: grid;
     grid-template-columns: min-content 260px;
     overflow-x: auto;
     overflow-y: hidden;
-    height: 84%;
+    height: 83%;
     padding: 20px 0 0 0;
 }
+
 .listsContainer{
     display: flex;
     flex-direction: row;
@@ -31,7 +50,6 @@
     min-width: 280px;
     min-height: 100px;
     height: fit-content;
-    background-color: #158888;
     border-radius: 10px;
     box-sizing: border-box;
     padding: 5px;
@@ -41,19 +59,15 @@
     max-width: 260px;
     min-width: 260px;
     height: fit-content;
-    border: 1px solid rgba(40,40,40,0.4);
+    border: 1px solid rgba(40, 40, 40, 0.3);
     border-radius: 10px;
     box-sizing: border-box;
 }
 table.addAnotherListTable{
     width: 100%;
-    background-color: rgba(220, 220, 220, 0.6);
     cursor: pointer;
     border-radius: 10px;
     display: block;
-}
-table.addAnotherListTable:hover{
-    background-color: rgba(220,220,220,0.7);
 }
 .addAnotherList{
     font-family: 'Poppins', sans-serif;
@@ -65,7 +79,6 @@ table.addAnotherListTable:hover{
 }
 div.addListForm{
     width: 100%;
-    background-color: rgb(230,230,230);
     padding: 5px;
     display: none;
     box-sizing: border-box;
@@ -73,7 +86,6 @@ div.addListForm{
 }
 input#listName{
     width: 100%;
-    border: 2px solid blue;
     border-radius: 5px;
     padding: 5px;
     box-sizing: border-box;
@@ -84,14 +96,9 @@ input#listName:focus{
 }
 button#createList{
     padding: 5px 15px;
-    color: white;
-    background-color: #1e0d73;
     margin-top: 5px;
     font-size: 15px;
     cursor: pointer;
-}
-button#createList:hover{
-    background-color: #2b188a;
 }
 img#closeCreateList{
     display: block;
@@ -99,9 +106,6 @@ img#closeCreateList{
     cursor: pointer;
     padding: 2px;
     border-radius: 2px;
-}
-img#closeCreateList:hover{
-    background-color: #bbb;
 }
 /** add card **/
 .addCard{
@@ -111,14 +115,10 @@ img#closeCreateList:hover{
 }
 table.addAnotherCardTable{
     width: 100%;
-    background-color: rgba(220, 220, 220, 0.3);
     cursor: pointer;
     border-radius: 5px;
     display: block;
     padding: 0 10px;
-}
-table.addAnotherCardTable:hover{
-    background-color: rgba(220,220,220,0.5);
 }
 .addAnotherCard{
     font-family: 'Poppins', sans-serif;
@@ -131,14 +131,12 @@ table.addAnotherCardTable:hover{
 div.addCardForm{
     display: none;
     width: 100%;
-    background-color: rgb(230,230,230);
     padding: 5px;
     border-radius: 5px;
     box-sizing: border-box;
 }
 input.cardName{
     width: 100%;
-    border: 2px solid blue;
     border-radius: 5px;
     padding: 5px;
     box-sizing: border-box;
@@ -149,14 +147,9 @@ input.cardName:focus{
 }
 button.createCard{
     padding: 5px 15px;
-    color: white;
-    background-color: #2c1a8a;
     margin-top: 5px;
     font-size: 13px;
     cursor: pointer;
-}
-button.createCard:hover{
-    background-color: #372691;
 }
 img.closeCreateCard{
     display: block;
@@ -166,11 +159,9 @@ img.closeCreateCard{
     padding: 2px;
     border-radius: 5px;
 }
-img.closeCreateCard:hover{
-    background-color: #bbb;
-}
 div.listName{
-    padding: 10px;
+    margin: 10px;
+    padding: 2px 5px;
     font-size: 17px;
     font-family: "Comic Sans MS";
 }
@@ -181,22 +172,18 @@ div.listName{
     max-height: 450px;
     overflow-y: auto;
 }
-
-.invisible{
-    visibility: hidden;
-}
 p.boardNameTopBar{
     height: 100%;
     width: fit-content;
     font-size: 26px;
-    font-family: "Comic Sans MS";
     margin: 0;
     padding: 2px 50px;
     display: inline-block;
-    color: #fff3a0;
+}
+.invisible{
+    visibility: hidden;
 }
 .card{
-    background-color: #5a78ff;
     min-height: 50px;
     font-size: 14px;
     text-align: left;
@@ -204,9 +191,6 @@ p.boardNameTopBar{
     margin: 5px;
     border-radius: 5px;
     cursor: pointer;
-}
-.card:hover{
-    background-color: #627cf5;
 }
 
 /*
@@ -226,9 +210,27 @@ div.cardContent{
 
 div.cardContent span.rightEntityEdit{
     float: right;
-    display: none;
+    display: inline-block;
+    visibility: hidden;
 }
-
+div.cardSetting{
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
+    width: 0;
+    height: 25px;
+    border-radius: 30px 0 0 30px;
+    z-index: 5;
+    display: flex;
+    flex-direction: row;
+    transition: width 0.5s;
+    visibility: hidden;
+    overflow: hidden;
+}
+div.cardSettingDelete, div.cardSettingOpen{
+    margin: 0 auto;
+    font-size: 18px;
+}
 div.cardPanelGlass{
     position: absolute;
     width: 100%;
@@ -236,7 +238,6 @@ div.cardPanelGlass{
     overflow: auto;
     top: 0;
     left: 0;
-    background-color: rgba(79, 75, 75, 0.5);
     z-index: 50;
     display: none;
 }
@@ -246,7 +247,6 @@ div.cardPanel {
     top: 10%;
     left: 50%;
     translate: -50% 0;
-    background-color: white;
     width: 50%;
     min-height: 80%;
     max-height: 80%;
@@ -266,9 +266,6 @@ div.cardPanel {
     right: 5px;
     cursor: pointer;
 }
-.closeCardPanel:hover{
-    background-color: rgba(50,50,50,0.3);
-}
 .cardPanelTop{
     display: grid;
     grid-template-columns: 8% 85%;
@@ -277,12 +274,12 @@ div.cardPanel {
     padding: 5px;
     font-size: 26px;
     word-wrap: break-word;
-    caret-color: blue;
-    outline-color: blue;
     cursor: text;
 }
-.cardPanelDesc{
-
+.inList{
+    grid-column: 1/span2;
+    font-size: 16px;
+    padding: 10px 60px;
 }
 .cardDescription{
     font-size: 20px;
@@ -292,20 +289,31 @@ div.cardPanel {
     word-wrap: break-word;
     cursor: text;
     min-height: 300px;
-    border: #8e9b8e;
-    background-color: #cfeff3;
-    box-shadow: 1px 1px 8px #4f4d4d;
 }
 button.saveDesc{
     font-size: 14px;
     border: none;
     border-radius: 5px;
     padding: 8px 13px;
-    color: white;
-    background-color: #2b188a;
     cursor: pointer;
     display: none;
 }
-button:hover{
-    background-color: #3c27a2;
+
+/* =========================== delete items section ================================================ */
+
+div.binContainer{
+    position: fixed;
+    width: 200px;
+    height: 210px;
+    right: -13%;
+    bottom: 5%;
+    display: block;
+    transition: translate 0.5s, rotate 0.5s;
+}
+div.binImage{
+    margin: 30px auto 0px auto;
+    width: 90%;
+    height: 90%;
+    background-image: url("../images/closedBin.png");
+    background-size: cover;
 }
