@@ -12,6 +12,10 @@ if (!(isset($_SESSION['validUser']) and $_SESSION['validUser'])){
 
 <!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
+<link rel="stylesheet" href="../styles/workspace.css">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <head>
     <base href="signup.php"/>
     <meta charset="UTF-8"/>

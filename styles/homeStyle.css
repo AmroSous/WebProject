@@ -21,7 +21,7 @@ h1.title {
     margin: 0;
     padding: 15px 0 30px 0;
     top: 270px;
-    color: red;
+    color: #0022ff;
 }
 
 p {
@@ -252,7 +252,7 @@ svg {
     stroke: white;
     stroke-dasharray: 7% 28%;
     stroke-width: 10px;
-    animation: stroke-offset 8s 1;
+    animation: stroke-offset 8s 3;
 }
 
 .text-copy:nth-child(1) {
@@ -285,5 +285,7 @@ svg {
         stroke-dashoffset: 35%;
         stroke-dasharray: 0 87.5%;
     } }
+
+
 
 

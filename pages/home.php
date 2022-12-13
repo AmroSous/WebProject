@@ -126,6 +126,10 @@ include '../common/project.php';
     </div>
 <!--Content ends-->
 
+<div style="position: relative; top: 855px;">
+    <?php include '../common/footer.php'; ?>
+</div>
+
 </body>
 </html>
 
