@@ -154,8 +154,13 @@ a.addBoard:active{
 table.boardsList td{
     color: #c8d0c8;
 }
+table.boardsList td.activeBoard{
+    background-color: #413d3d;
+    color: goldenrod;
+}
 table.boardsList td:hover{
     background-color: #413d3d;
+    color: #c8d0c8;
 }
 span.ellipseSpan:hover{
     background-color: #4f4d4d;
