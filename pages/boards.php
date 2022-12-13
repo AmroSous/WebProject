@@ -122,6 +122,9 @@ $conn = NULL;
                         }
                     ?>
                 </table>
+                <script>
+                    document.getElementById('board<?= $_SESSION["boardId"]; ?>').classList.add('activeBoard');
+                </script>
             </div>
 
         <!-- lists area -->
@@ -247,6 +250,7 @@ $conn = NULL;
                 <select name="boardTemplate" id="boardTemplate" required>
                     <option value="styles/templates/default.css" selected>default style</option>
                     <option value="styles/templates/sunset.css">sunset style</option>
+                    <option value="styles/templates/synthwave.css">synthwave style</option>
                 </select>
             </div><br/>
             <button type="button" id="submitCreateCard">Create</button>

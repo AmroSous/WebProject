@@ -324,9 +324,23 @@ function createList(listName, listID){
 
         if (e.clientX > trash_coor['left'] && e.clientX < trash_coor['right'] && e.clientY > trash_coor['top'] && e.clientY < trash_coor['bottom']){
             // remove list ---- AJAX
-            const arr = {};
-            arr['listID'] = list.dataset.id;
-            sendRequest(deleteList, RequestType.DeleteList, JSON.stringify(arr));
+            if (confirm('Are you sure you want to delete this list ?')){
+                const arr = {};
+                arr['listID'] = list.dataset.id;
+                sendRequest(deleteList, RequestType.DeleteList, JSON.stringify(arr));
+            }else{
+                list.classList.remove('draggingList');
+                list.classList.remove('invisible');
+
+                // save new serial numbers for all lists
+                const lists = document.querySelectorAll('.listsContainer .list');
+                const arr = {};
+                for (let i = 1; i <= lists.length; i++){
+                    arr[lists[i-1].dataset.id] = i;
+                }
+                sendRequest(changeListOrder, RequestType.ListOrder, JSON.stringify(arr));
+                //
+            }
         }
         else{
             list.classList.remove('draggingList');
