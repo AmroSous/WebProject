@@ -1,4 +1,3 @@
-@import "https://fonts.googleapis.com/css?family=Audiowide|Sofia|Trirong";
 
 body{
     margin: 0;
@@ -14,7 +13,6 @@ body{
 /* slide bar */
 
 .slideBar{
-    background-color: #888;
     height: 100%;
     width: 18%;
     overflow-x: hidden;
@@ -39,7 +37,6 @@ table.table1{
     text-align: center;
     font-size: 24px;
     font-weight: bold;
-    background-image: linear-gradient(to bottom, blue, #5a78ff);
     border-radius: 5px;
     padding: 10px 15px;
 }
@@ -51,7 +48,6 @@ a.closeSlideBar{
     text-decoration: none;
     font-size: 24px;
     font-weight: bold;
-    color: black;
     border-radius: 5px;
     display: block;
     width: 35px;
@@ -59,14 +55,7 @@ a.closeSlideBar{
     padding: 5px;
     box-sizing: border-box;
 }
-a.closeSlideBar:hover{
-    background-color: #666;
-}
-a.closeSlideBar:active{
-    background-color: #555;
-}
 div.closeImg{
-    background-image: url("../images/left.png");
     background-size: cover;
     width: 100%;
     height: 100%;
@@ -74,7 +63,6 @@ div.closeImg{
 hr{
     margin: 15px;
     border: none;
-    border-top: 2px rgba(0, 0, 0, 0.4) solid;
 }
 .table2{
     width: 100%;
@@ -93,37 +81,30 @@ a.addBoard{
     padding: 5px;
     border-radius: 5px;
     text-decoration: none;
-    color: black;
-}
-a.addBoard:hover{
-    background-color: #666;
-}
-a.addBoard:active{
-    background-color: #555;
 }
 table.boardsList{
     width: 100%;
 }
 table.boardsList td{
+    display: grid;
+    grid-template-columns: auto 15%;
+    column-gap: 5px;
     width: 100%;
-    padding: 10px 15px;
+    padding: 10px 10px;
     font-size: 20px;
     font-family: Comic Sans MS;
     cursor: pointer;
 }
-table.boardsList td:hover{
-    background-color: #aaa;
+table.boardsList td span.ellipseSpan{
+    width: fit-content;
+    border-radius: 10px;
+    padding: 0 3px;
 }
 .closedBar{
     width: 15px;
     height: 100%;
-    background-color: rgba(100, 100, 100, 0.4);
-    border: 1px solid rgba(50, 50, 50, 0.8);
     display: none;
     float: left;
-}
-.closedBar:hover{
-    background-color: rgba(100, 100, 100, 0.6);
 }
 a.openSlideBar{
     position: absolute;
@@ -134,15 +115,10 @@ a.openSlideBar{
     height: 30px;
     padding: 5px;
     box-sizing: border-box;
-    background-color: rgba(50,50,50,0.4);
     border-radius: 10px;
     visibility: hidden;
 }
-a.openSlideBar:hover{
-    background-color: rgba(50,50,50,0.6);
-}
 div.openImg{
-    background-image: url("../images/right.png");
     background-size: cover;
     width: 100%;
     height: 100%;
@@ -152,7 +128,6 @@ div.addBoardPlane{
     position: absolute;
     width: 35%;
     height: 40%;
-    background-color: rgba(220, 220, 220);
     left: 50%;
     top: 50%;
     translate: -50% -50%;
@@ -160,7 +135,6 @@ div.addBoardPlane{
     display: none;
 }
 div.closeCreateBoardPanel{
-    background-image: url("../images/close1.png");
     background-size: cover;
     position: absolute;
     right: 3px;
@@ -179,7 +153,6 @@ div.form input#boardNameInput{
     font-size: 18px;
     padding: 5px 10px;
     width: 80%;
-    outline-color: red;
 }
 div.form label{
     font-family: Arial;
@@ -189,19 +162,73 @@ div.form button{
     margin-top: 10px;
     width: 50%;
     padding: 10px;
-    color: white;
-    background-color: black;
     border-radius: 10px;
     font-size: 16px;
     cursor: pointer;
 }
-div.form button:hover{
-    background-color: #181818;
+div.boardTemplateSection{
+    display: grid;
+    grid-template-columns: 50% auto;
+}
+div.form select#boardTemplate{
+    width: fit-content;
+    margin-left: 100px;
+    padding: 5px 10px;
+    font-size: 16px;
 }
 div.addBoardErrors{
     width: 90%;
     margin: 3px auto;
     font-size: 16px;
-    color: red;
     text-align: center;
+}
+div.contextBoards{
+    position: absolute;
+    width: 170px;
+    height: 250px;
+    border-radius: 10px;
+    display: none;
+    transition: display 1s;
+    display: flex;
+    flex-direction: column;
+}
+div.contextBoards div{
+    font-size: 16px;
+    text-align: left;
+    padding: 3px 20px;
+    cursor: default;
+    margin: 10px 0;
+}
+div.contextBoards hr{
+    width: 100%;
+    border: none;
+    border-top: 1px solid;
+    padding: 0;
+    margin: 0;
+}
+div.boardRenamePane{
+    position: absolute;
+    top: 40%;
+    left: 30%;
+    width: fit-content;
+    height: fit-content;
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: none;
+    z-index: 35;
+}
+input#boardRenameInput{
+    width: 200px;
+    padding: 5px 10px;
+    font-size: 15px;
+    border-radius: 2px;
+}
+div.renameBoardGlass{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 30;
+    display: none;
+    left: 0;
+    top: 0;
 }

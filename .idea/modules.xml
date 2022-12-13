@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../FirstProject/.idea/FirstProject.iml" filepath="$PROJECT_DIR$/../FirstProject/.idea/FirstProject.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/Trello.iml" filepath="$PROJECT_DIR$/.idea/Trello.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../TemplateDesign/todo-list/.idea/todo-list.iml" filepath="$PROJECT_DIR$/../TemplateDesign/todo-list/.idea/todo-list.iml" />
     </modules>
   </component>
 </project>
