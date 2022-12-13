@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 12, 2022 at 10:50 PM
+-- Generation Time: Dec 13, 2022 at 09:46 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -40,8 +40,10 @@ CREATE TABLE `boards` (
 
 INSERT INTO `boards` (`id`, `name`, `workspace_id`, `template`) VALUES
 (1, 'Front end Board', 1, 'styles/templates/default.css'),
-(5, 'MY PROJECT', 1, 'styles/templates/default.css'),
-(7, 'Styling design', 1, 'styles/templates/sunset.css');
+(5, 'MY PROJECT', 1, 'styles/templates/synthwave.css'),
+(7, 'Styling design', 1, 'styles/templates/sunset.css'),
+(9, 'boardES', 2, 'styles/templates/synthwave.css'),
+(10, 'OH2', 3, 'styles/templates/default.css');
 
 -- --------------------------------------------------------
 
@@ -65,18 +67,18 @@ INSERT INTO `cards` (`id`, `name`, `description`, `list_id`, `serial`) VALUES
 (1, 'Login System', 'We have to build complete login system that is consists of:\n1- login\n2- sign up\n3- forget password\n4- sessions\n5- mail verification code\n6- test add description', 1, 1),
 (2, 'Home Page', 'This is the first page displayed when the user request the website.', 2, 2),
 (3, 'First Structure', 'files of our website :\n1- pages\n2- common\n3- styles\n4- scripts\n5- functions', 2, 1),
-(7, 'card', '', 1, 2),
-(8, 'another card', '', 1, 1),
-(9, 'card text', 'HELLO', 1, 2),
-(14, 'Build initial structure', 'initial files structures ', 17, 1),
+(7, 'card', '', 1, 1),
+(8, 'another card', '', 1, 2),
+(9, 'card text', 'HELLO', 1, 1),
 (15, 'Add some features', 'styles and templates UI ..', 14, 1),
 (16, 'Control database', 'requests handlers for AJAX in JSON format \ndelete items \nadding lists, cards and boards\nmaintain order of cards and lists', 15, 1),
-(17, 'add listeners', 'listeners for several events like \n- click \n- drag\n- hover \n- focus', 16, 2),
+(17, 'add listeners', 'listeners for several events like \n- click \n- drag\n- hover \n- focus', 16, 1),
 (18, 'develop html', 'HTML elements \nCSS default style ', 16, 1),
 (19, 'security check', 'against some attacks like \n- SQL injection \n- XXS\n- Brute forcing', 15, 2),
 (24, 'first card', '', 29, 1),
-(25, 'second card', '', 29, 1),
-(26, 'third card', '', 30, 1);
+(25, 'second card', '', 29, 2),
+(26, 'third card', '', 30, 1),
+(27, 'Basic files structure', '', 31, 1);
 
 -- --------------------------------------------------------
 
@@ -101,9 +103,9 @@ INSERT INTO `lists` (`id`, `name`, `board_id`, `serial`) VALUES
 (14, 'BRAIN STORM', 5, 1),
 (15, 'TO DO', 5, 2),
 (16, 'DOING', 5, 3),
-(17, 'DONE', 5, 4),
 (29, 'First list', 7, 1),
-(30, 'Second list', 7, 2);
+(30, 'Second list', 7, 2),
+(31, 'DONE', 5, 4);
 
 -- --------------------------------------------------------
 
@@ -144,7 +146,9 @@ CREATE TABLE `workspaces` (
 --
 
 INSERT INTO `workspaces` (`id`, `name`, `user_id`) VALUES
-(1, 'My Web Project', 6);
+(1, 'My Web Project', 6),
+(2, 'New WS', 6),
+(3, 'another one', 6);
 
 --
 -- Indexes for dumped tables
@@ -192,19 +196,19 @@ ALTER TABLE `workspaces`
 -- AUTO_INCREMENT for table `boards`
 --
 ALTER TABLE `boards`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `cards`
 --
 ALTER TABLE `cards`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `lists`
 --
 ALTER TABLE `lists`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -216,7 +220,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `workspaces`
 --
 ALTER TABLE `workspaces`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables

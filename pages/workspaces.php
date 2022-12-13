@@ -1,12 +1,40 @@
 <?php
 session_start();
 
-include '../common/project.php';
+include '../common/functions.php';
+include '../common/ws_boards_pair.php';
 
 // if the user signed in go to workspaces
 if (!(isset($_SESSION['validUser']) and $_SESSION['validUser'])){
     header('location: home.php');
 }
+
+// get user workspaces and boards from database
+//-------------- fetch all the information about board from database ---------------
+$conn = connectDB();
+$prep = "select * from `workspaces` where `user_id` = :id";
+$stmt = $conn->prepare($prep);
+$stmt->bindParam(':id', $_SESSION['userId']);
+$stmt->execute();
+$stmt->setFetchMode(PDO::FETCH_ASSOC);
+$workspaces = $stmt->fetchAll();
+
+// ---------------------------------
+$wss_boards = array();
+$wss_boards = array_fill(0, count($workspaces), -1);
+$i = 0;
+foreach ($workspaces as $ws){
+    $prep = "select * from `boards` where `workspace_id` = :id";
+    $stmt = $conn->prepare($prep);
+    $stmt->bindParam(':id', $ws['id']);
+    $stmt->execute();
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $boards = $stmt->fetchAll();
+    $node = new ws_boards_pair($ws, $boards);
+    $wss_boards[$i] = $node;
+    $i++;
+}
+$conn = NULL;
 
 ?>
 
@@ -31,106 +59,80 @@ if (!(isset($_SESSION['validUser']) and $_SESSION['validUser'])){
 </head>
 <body>
 <!--Navigation bar-->
-<?php // include '../common/nav_bar.php'; ?>
+<?php include '../common/nav_bar.php'; ?>
 
 <!-- Workspaces elements here -->
 
-    <nav class="nav">
-        <div id="navName">Work spaces</div>
-    </nav>
     <div class="content">
         <div class="video-wrapper">
             <video playsinline autoplay muted loop poster>
                 <source src="../images/video.mp4" type="video/mp4">
             </video>
         </div>
+        <div class="addWS">
+            <label for="addWsInput">workspace name: </label><input id="addWsInput" type="text"><button type="button" id="addWsButton">ADD</button>
+        </div>
         <div class="wsName">
 
-            <button class="workspaces" onclick="document.getElementById('listt').style.visibility='visible'">Workspace one</button>
-            <ul class="hh" id="listt" >
-                <li >
-                    <a class="card" href="http://localhost:63342/WebProject/pages/home.php"  >board one</a>
-                </li>
-                <li>
-                    <a href="https://www.youtube.com/results?search_query=card+animation+in+css" target="_blank" class="card">board two</a>
-                </li>
-            </ul>
-            <button class="workspaces" onclick="document.getElementById('l2').style.visibility='visible'">Workspace two</button>
-            <ul id="l2">
-                <li>
-                    <a class="card" href="https://www.youtube.com">board one</a>
-                </li>
-                <li>
-                    <a class="card">board two</a>
-                </li>
-            </ul>
-        </div>
-
-
-
-    </div>
-
-    <div class="sidebar">
-        <span>sidebar</span>
-        <!--<ul>-->
-        <!--    <ul class="work_sidebar">-->
-        <!--       <li >board1</li>-->
-        <!--        <li>board2</li>-->
-        <!--    </ul>-->
-        <!--    <li>hi</li>-->
-        <!--</ul>-->
-        <div class="w3-sidebar w3-bar-block w3-light-grey w3-card" style="width:160px;">
-            <a href="#" class="w3-bar-item w3-button">Link 1</a>
-            <button class="w3-button w3-block w3-left-align" onclick="myAccFunc()">
-                Accordion <i class="fa fa-caret-down"></i>
+            <?php
+                for ($i = 0; $i < count($wss_boards); $i++){
+            ?>
+            <button class="workspaces" data-id="<?= $wss_boards[$i]->workspace['id'] ?>">
+                <div class="wsSettingEllipse">&#x22EF;</div>
+                <div class="wsSetting"><span class="wsSettingDelete">&#x2613;</span><span class="wsSettingEdit">&#x270E;</span><span class="wsSettingAdd">&#x271A;</span></div>
+                <?= $wss_boards[$i]->workspace['name'] ?>
             </button>
-            <div id="demoAcc" class="w3-hide w3-white w3-card">
-                <a href="#" class="w3-bar-item w3-button">Link</a>
-                <a href="#" class="w3-bar-item w3-button">Link</a>
-            </div>
-
-            <div class="w3-dropdown-click">
-                <button class="w3-button" onclick="myDropFunc()">
-                    Dropdown <i class="fa fa-caret-down"></i>
-                </button>
-                <div id="demoDrop" class="w3-dropdown-content w3-bar-block w3-white w3-card">
-                    <a href="#" class="w3-bar-item w3-button">Link</a>
-                    <a href="#" class="w3-bar-item w3-button">Link</a>
-                </div>
-            </div>
-            <a href="#" class="w3-bar-item w3-button">Link 2</a>
-            <a href="#" class="w3-bar-item w3-button">Link 3</a>
+            <ul class="carding" id="l<?= $wss_boards[$i]->workspace['id'] ?>">
+                <?php
+                    foreach ($wss_boards[$i]->boards as $board){
+                ?>
+                <li id="b<?= $board['id'] ?>" data-id="<?= $board['id'] ?>">
+                    <a class="card" href="boards.php?id=<?= $board['id'] ?>"><?= $board['name'] ?></a>
+                </li>
+                <?php
+                    }
+                ?>
+            </ul>
+            <?php
+                }
+            ?>
         </div>
 
-
-
     </div>
-    <script>
-        function myAccFunc() {
-            var x = document.getElementById("demoAcc");
-            if (x.className.indexOf("w3-show") == -1) {
-                x.className += " w3-show";
-                x.previousElementSibling.className += " w3-green";
-            } else {
-                x.className = x.className.replace(" w3-show", "");
-                x.previousElementSibling.className =
-                    x.previousElementSibling.className.replace(" w3-green", "");
-            }
-        }
 
-        function myDropFunc() {
-            var x = document.getElementById("demoDrop");
-            if (x.className.indexOf("w3-show") == -1) {
-                x.className += " w3-show";
-                x.previousElementSibling.className += " w3-green";
-            } else {
-                x.className = x.className.replace(" w3-show", "");
-                x.previousElementSibling.className =
-                    x.previousElementSibling.className.replace(" w3-green", "");
-            }
-        }
+    <div class="glassLayer"></div>
+
+    <div class="addBoardPlane" data-id="">
+        <div class="closeCreateBoardPanel"></div>
+        <div class="form">
+            <label for="boardNameInput">Enter Board Name</label><br/>
+            <input type="text" name="boardNameInput" id="boardNameInput"/><br/><br/>
+            <div class="boardTemplateSection">
+                <label for="boardTemplate">Choose Template:</label>
+                <select name="boardTemplate" id="boardTemplate" required>
+                    <option value="styles/templates/default.css" selected>default style</option>
+                    <option value="styles/templates/sunset.css">sunset style</option>
+                    <option value="styles/templates/synthwave.css">synthwave style</option>
+                </select>
+            </div><br/>
+            <button type="button" id="submitCreateCard">Create</button>
+        </div>
+        <div class="addBoardErrors"></div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.workspaces').forEach(work => {
+            work.addEventListener('click', ()=>{
+                const xx = work.nextElementSibling;
+                if (xx.style.visibility == 'visible'){
+                    xx.style.visibility = 'hidden';
+                }else
+                    xx.style.visibility = 'visible';
+            })
+        })
     </script>
-    <a href="https://www.youtube.com">ssssssssss</a>
+    <script src="../jscripts/workspaces.js"></script>
+    <script src="../jscripts/ajaxLists.js"></script>
 
 </body>
 </html>
