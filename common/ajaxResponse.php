@@ -21,6 +21,9 @@ const DeleteBoard = 'DeleteBoard';
 const DeleteList = 'DeleteList';
 const DeleteCard = 'DeleteCard';
 const RenameBoard = 'RenameBoard';
+const AddWorkspace = 'AddWorkspace';
+const DeleteWorkspace = 'DeleteWorkspace';
+const AddBoard2 = 'AddBoard2';
 // ===========================================================
 
 if($_SERVER['REQUEST_METHOD'] == "POST"){
@@ -733,6 +736,75 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
                     $response['error'] = 'Invalid board access';
                     $response['boardName'] = $boardName;
                     $response['boardID'] = $boardID;
+                }
+                $conn = NULL;
+                echo json_encode($response);
+                break;
+            //-------------------------------------------------------------------------
+            case AddBoard2:
+                $response = array(
+                    'status' => '0',
+                    'boardId' => '0',
+                    'error' => '0'
+                );
+                $request = json_decode($_POST['content']);
+                $request = (array)($request);
+                $boardName = test_input($request['boardName']);
+                $template = test_input($request['template']);
+                $wsID = test_input($request['wsID']);
+                if (empty($boardName) || empty($template)){
+                    $response['error'] = 'Empty Field';
+                    $response['status'] = 'NO';
+                }else{
+                    $conn = connectDB();
+                    $prep = "insert into `boards` (`name`, `workspace_id`, `template`) values (:name, :ws_id, :template)";
+                    $stmt = $conn->prepare($prep);
+                    $ws_id = test_input($_SESSION['workspaceId']);
+                    $stmt->bindParam(':name', $boardName);
+                    $stmt->bindParam(':ws_id', $wsID);
+                    $stmt->bindParam(':template', $template);
+                    $res = $stmt->execute();
+                    if ($res){
+                        $response['status'] = 'OK';
+                        $response['boardId'] = $conn->lastInsertId();
+                    }
+                    else{
+                        $response['status'] = 'NO';
+                        $response['error'] = 'SQL Failed';
+                    }
+                }
+                $conn = NULL;
+                echo json_encode($response);
+                break;
+            //-------------------------------------------------------------------------
+            case AddWorkspace:
+                $response = array(
+                    'status' => '0',
+                    'wsID' => '0',
+                    'error' => '0'
+                );
+                $request = json_decode($_POST['content']);
+                $request = (array)($request);
+                $wsName = test_input($request['wsName']);
+                if (empty($wsName)){
+                    $response['error'] = 'Empty Field';
+                    $response['status'] = 'NO';
+                }else{
+                    $conn = connectDB();
+                    $prep = "insert into `workspaces` (`name`, `user_id`) values (:name, :userID)";
+                    $stmt = $conn->prepare($prep);
+                    $user_id = $_SESSION['userId'];
+                    $stmt->bindParam(':name', $wsName);
+                    $stmt->bindParam(':userID', $user_id);
+                    $res = $stmt->execute();
+                    if ($res){
+                        $response['status'] = 'OK';
+                        $response['wsID'] = $conn->lastInsertId();
+                    }
+                    else{
+                        $response['status'] = 'NO';
+                        $response['error'] = 'SQL Failed';
+                    }
                 }
                 $conn = NULL;
                 echo json_encode($response);

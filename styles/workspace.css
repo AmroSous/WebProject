@@ -13,10 +13,7 @@ body{
     height: 100vh;
     font-family: "Poppins", sans-serif;
     background-color: #fff;
-    display: grid;
-    grid-template-rows:50px auto auto;
-    grid-template-columns:auto auto auto;
-
+    overflow: hidden;
 }
 .nav{
     text-align: center;
@@ -46,11 +43,12 @@ body{
     grid-column-start: 2;
     grid-column-end: 5;
     background-color: #ffffff;
+    overflow: hidden;
 }
 .workspaces{
-    z-index: 1;
-    width: 100px;
-    height: 100px;
+    z-index: 2;
+    width: 120px;
+    height: 120px;
     box-shadow: 16px 14px 20px #0000008c;
     overflow: hidden;
     background-color: #8a90e7;
@@ -60,51 +58,31 @@ body{
     justify-content: center;
     align-items: center;
     font-family:sans-serif;
+    font-size: 1.5rem;
 }
-/*workspaces::before{*/
-/*    content: "";*/
-/*    background-image: conic-gradient(#ff0052 20deg , transparent 120deg);*/
-/*    width: 150%;*/
-/*    height: 150%;*/
-/*    position: absolute;*/
-/*    animation: rotate 2s linear infinite;*/
 
-/*}*/
-/*workspaces::after{*/
-/*    content: "hi";*/
-/*    width: 190px;*/
-/*    height: 190px;*/
-/*    background: #101010;*/
-/*    position: absolute;*/
-/*    border-radius: 10px;*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    align-items: center;*/
-/*}*/
-
-.a{
-    font-family: sans-serif;
-    text-decoration: none;
-
-}
 .wsName{
     position: absolute;
-    top: 90px;
+    top: 160px;
+    width: 100%;
+    left: 0;
+    height: 87vh;
+    padding: 10px 30px;
     z-index: 0;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
 }
 
-.content ul{
+.content .wsName ul{
     display: inline;
+    margin: 5px;
     z-index: 1;
     opacity: 1;
     visibility: hidden;
 }
 ul{
     list-style-type: none;
-
 }
 
 .card {
@@ -119,10 +97,10 @@ ul{
     align-items: center;
     text-align: center;
     display: flex;
-    font-size: 1.5em;
+    font-size: 1.5gd;
     color: rgb(88 199 250 / 0%);
     font-family: cursive;
-    margin-bottom: 10px;
+    margin: 0 0 10px 0;
     text-decoration: none;
     border: solid 3px rgb(104, 211, 202);
 
@@ -149,7 +127,7 @@ ul{
     filter: blur(40px);
 }
 
-a {
+a.card {
     color: #212534;
     text-decoration: none;
     font-family: sans-serif;
@@ -179,4 +157,134 @@ video {
     align-items: flex-start;
     justify-content: center;
 }
-
+.addWS{
+    position: absolute;
+    top: 80px;
+    left: 0;
+    width: fit-content;
+    height: 70px;
+    display: grid;
+    grid-template-columns: 220px 230px 100px 20px;
+    align-items: center;
+    margin-left: 50px;
+    gap: 30px;
+    background-color: rgba(75, 75, 75, 0.49);
+    border-radius: 5px;
+}
+#addWsInput{
+    width: 100%;
+    padding: 5px 10px;
+    font-size: 14px;
+    height: 40px;
+    border-radius: 5px;
+}
+#addWsButton{
+    width: 100px;
+    height: 30px;
+    border-radius: 5px;
+    background-color: #7e7020;
+    color: white;
+}
+label{
+    font-size: 20px;
+    color: #420000;
+    font-weight: bold;
+    padding: 5px 20px;
+}
+.wsSetting{
+    position: absolute;
+    width: 0;
+    height: 30px;
+    background-color: #8e9b8e;
+    top: 15px;
+    translate: 95px 0;
+    border-radius: 0 20% 20% 0;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 25px 25px 25px;
+    z-index: 1;
+    overflow: hidden;
+    transition: 0.5s;
+}
+.wsSetting span:hover{
+    background-color: #555;
+}
+.wsSettingEllipse{
+    position: absolute;
+    top: 10px;
+    translate: 40px 0;
+    width: 40px;
+}
+div.glassLayer{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background-color: rgba(51, 50, 50, 0.29);
+    z-index: 5;
+    display: none;
+}
+div.addBoardPlane{
+    position: absolute;
+    width: 35%;
+    height: 40%;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    border-radius: 20px;
+    display: none;
+    z-index: 15;
+    background-color: #7e7020;
+}
+div.closeCreateBoardPanel{
+    background-size: cover;
+    position: absolute;
+    right: 3px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+div.addBoardPlane div.form{
+    margin: 20px auto;
+    padding: 15px 20px;
+    width: 80%;
+    box-sizing: border-box;
+}
+div.form input#boardNameInput{
+    font-family: Arial;
+    font-size: 18px;
+    padding: 5px 10px;
+    width: 80%;
+}
+div.form label{
+    font-family: Arial;
+    font-size: 18px;
+}
+div.form button{
+    margin-top: 10px;
+    width: 50%;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+div.boardTemplateSection{
+    display: grid;
+    grid-template-columns: 55% auto;
+}
+div.form select#boardTemplate{
+    width: fit-content;
+    margin-left: 50px;
+    padding: 5px 10px;
+    font-size: 16px;
+}
+div.addBoardErrors{
+    width: 90%;
+    margin: 3px auto;
+    font-size: 16px;
+    text-align: center;
+}
+.profileAnchor{
+    line-height: 1;
+}

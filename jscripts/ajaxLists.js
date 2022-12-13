@@ -10,7 +10,10 @@ const RequestType = {
     'DeleteBoard': 'DeleteBoard',
     'DeleteList': 'DeleteList',
     'DeleteCard': 'DeleteCard',
-    'RenameBoard': 'RenameBoard'
+    'RenameBoard': 'RenameBoard',
+    'AddWorkspace': 'AddWorkspace',
+    'DeleteWorkspace': 'DeleteWorkspace',
+    'AddBoard2': 'AddBoard2'
 };
 
 function sendRequest(cFunction, type, content){
@@ -151,6 +154,36 @@ function renameBoard(xHttp){
             document.querySelector('div.renameBoardGlass').style.display = 'none';
             const pane = document.querySelector('div.boardRenamePane');
             pane.style.display = 'none';
+        }else
+            console.log(response['error']);
+    }
+}
+//---------------------------------- Add workspace ---------------------
+function addWorkspace(xHttp){
+    if (xHttp.status == 200 && xHttp.readyState == 4) {
+        const response = JSON.parse(xHttp.responseText);
+        if (response['status'] == 'OK'){
+            window.location.href = 'http://localhost/Schema/pages/workspaces.php';
+        }else
+            console.log(response['error']);
+    }
+}
+//---------------------------------- Delete workspace ------------------
+function deleteWorkspace(xHttp){
+    if (xHttp.status == 200 && xHttp.readyState == 4) {
+        const response = JSON.parse(xHttp.responseText);
+        if (response['status'] == 'OK'){
+
+        }else
+            console.log(response['error']);
+    }
+}
+//---------------------------------- Add board 2 ---------------------
+function addBoard2(xHttp){
+    if (xHttp.status == 200 && xHttp.readyState == 4) {
+        const response = JSON.parse(xHttp.responseText);
+        if (response['status'] == 'OK'){
+            window.location.href = 'http://localhost/Schema/pages/workspaces.php';
         }else
             console.log(response['error']);
     }
